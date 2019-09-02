@@ -11,13 +11,13 @@ class LoginForm extends Component {
           autoCorrect={false}
           keyboardType='email-address'
           returnKeyType="next"
-          placeholder='Email or Mobile Num'
+          placeholder='Email'
           placeholderTextColor='#CD7F32'/>
 
         <TextInput style = {styles.input}
           returnKeyType="go"
           ref={(input)=> this.passwordInput = input}
-          placeholder='Password'
+          placeholder='Senha'
           placeholderTextColor='#CD7F32'
           secureTextEntry/>
 
