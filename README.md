@@ -2,6 +2,8 @@
 
 Projeto inicial de Engenharia de Software 2019.2
 
+![itrade logo](https://raw.githubusercontent.com/kazuhirodk/itrade/master/src/components/images/itrade-logo.png)
+
 #### Versions
 - **Node** 10.15.3
 - **react-native-cli** 2.0.1
