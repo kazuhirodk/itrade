@@ -1,12 +1,14 @@
-import React, {Fragment} from 'react';
-import Login from './src/components/Login/Login';
+import React, {Component} from 'react';
+import { AppRegistry, View } from 'react-native';
+import Routes from './src/components/Routes/Routes';
 
-const App = () => {
-  return (
-    <Fragment>
-      <Login />
-    </Fragment>
-  );
+class App extends Component {
+  render() {
+    return (
+      <Routes />
+    )
+  }
 };
 
 export default App;
+// AppRegistry.registerComponent('App', () => App);
