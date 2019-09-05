@@ -62,11 +62,6 @@ export default class SignUp extends React.Component {
           title='Registrar'
           onPress={this.signUp}
         />
-        <Button
-          color='#EE2C2C'
-          title='Cancelar'
-          onPress={this.return}
-        />
       </View>
     )
   }
