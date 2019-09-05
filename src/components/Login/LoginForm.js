@@ -22,10 +22,12 @@ class LoginForm extends Component {
           secureTextEntry/>
 
         <TouchableOpacity style={styles.buttonContainer}>
-          <Text  style={styles.buttonText}>LOGIN</Text>
+          <Text style={styles.buttonText}>LOGIN</Text>
         </TouchableOpacity>
 
-        <Text style={styles.subscribeText}>Registre-se</Text>
+        <TouchableOpacity style={styles.signupButton}>
+          <Text style={styles.signupButton}>Registre-se</Text>
+        </TouchableOpacity>
       </View>
     );
   }
@@ -52,11 +54,10 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontWeight: '700'
   },
-  subscribeText:{
-    marginBottom: 30,
-    alignSelf: 'center',
-    color: '#CD7F32',
-    fontWeight: '700'
+  signupButton:{
+    marginBottom: 20,
+    textAlign: 'center',
+    color: '#CD7F32'
   }
 });
 
