@@ -2,7 +2,6 @@ import React from 'react';
 import { View, Image, StyleSheet, KeyboardAvoidingView, Text, TextInput, TouchableOpacity } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 
-
 const Login = () => {
   const goToSignUp = () => {
     Actions.signup()
