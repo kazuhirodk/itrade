@@ -6,6 +6,9 @@ const Login = () => {
   const goToSignUp = () => {
     Actions.signup()
   }
+  const goToHome = () => {
+    Actions.home()
+  }
   return (
     <KeyboardAvoidingView style={styles.container}>
       <View style={styles.loginContainer}>
@@ -29,7 +32,7 @@ const Login = () => {
           placeholderTextColor='#CD7F32'
           secureTextEntry/>
 
-        <TouchableOpacity style={styles.buttonContainer}>
+        <TouchableOpacity style={styles.buttonContainer} onPress= {goToHome} >
           <Text style={styles.buttonText}>LOGIN</Text>
         </TouchableOpacity>
 
