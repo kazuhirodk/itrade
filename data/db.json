@@ -1,0 +1,26 @@
+{
+    "users": [
+        {
+            "cpf":1234567899,
+            "nome":"Maguila",
+            "email":"maguilabox@gmail.com",
+            "CEP":"123456-123",
+            "password":"boxeador",
+            "img":""
+        }
+
+    ],
+    "products":[
+        {
+            "id":2345,
+            "nome_produto":"hot wheels",
+            "descricao":"",
+            "fotos":[],
+            "preco":"",
+            "data_cadastro":"",
+            "status":"",
+            "contador":""
+        }
+    ]
+    
+}

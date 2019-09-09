@@ -15,6 +15,14 @@ Projeto inicial de Engenharia de Software 2019.2
 #### Installing dependencies
 `npm install`
 
+#### Running the database
+`cd data` 
+`json-server --watch db.json`
+
+The database will be running on localhost:3000
+
+
+
 #### Run project
 ```
 react-native run-ios
