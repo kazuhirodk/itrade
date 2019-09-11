@@ -1,14 +1,31 @@
 import React from 'react';
 import { View, Image, StyleSheet, KeyboardAvoidingView, Text, TextInput, TouchableOpacity } from 'react-native';
 import { Actions } from 'react-native-router-flux';
+import axios from axios;
 
-const Login = () => {
-  const goToSignUp = () => {
+export default class User extends Component {
+  state = {
+    email: '',
+    password: '',
+  };
+}
+export default login = async() => {
+    url = 'localhost:3000/users?email='+ this.email + '&password='+ this.password;
+    axios.get(url)
+    .then((res) => {
+      console.log(res);
+      goToHome;
+  })
+  .catch(console.error());
+  
+}
+   goToSignUp = () => {
     Actions.signup()
   }
   const goToHome = () => {
     Actions.home()
   }
+  render(){
   return (
     <KeyboardAvoidingView style={styles.container}>
       <View style={styles.loginContainer}>
@@ -19,6 +36,7 @@ const Login = () => {
         <TextInput style = {styles.input}
           autoCapitalize="none"
           onSubmitEditing={() => this.passwordInput.focus()}
+          onChangeText={(email) => this.setState({email})}
           autoCorrect={false}
           keyboardType='email-address'
           returnKeyType="next"
@@ -28,11 +46,12 @@ const Login = () => {
         <TextInput style = {styles.input}
           returnKeyType="go"
           ref={(input)=> this.passwordInput = input}
+          onChangeText={(password) => this.setState({password})}
           placeholder='Senha'
           placeholderTextColor='#CD7F32'
           secureTextEntry/>
 
-        <TouchableOpacity style={styles.buttonContainer} onPress= {goToHome} >
+        <TouchableOpacity style={styles.buttonContainer} onPress= {this.Login} >
           <Text style={styles.buttonText}>LOGIN</Text>
         </TouchableOpacity>
 
@@ -44,7 +63,7 @@ const Login = () => {
   );
 }
 
-const styles = StyleSheet.create({
+styles = StyleSheet.create({
   container: {
     padding: 20,
     flex: 1,
@@ -83,5 +102,3 @@ const styles = StyleSheet.create({
     color: '#CD7F32'
   }
 })
-
-export default Login;
