@@ -4,6 +4,7 @@ import Login from '../Login/Login';
 import SignUp from '../SignUp/SignUp';
 import Home from '../Home/Home';
 import ProfileEdit from '../Profile/ProfileEdit';
+import ProductEdit from '../Product/ProductEdit';
 
 const Routes = () => (
   <Router>
@@ -12,6 +13,7 @@ const Routes = () => (
       <Scene key = "signup" component = {SignUp} title = "Cadastro" />
       <Scene key = "home" component = {Home} title = "Home" />
       <Scene key = "profileEdit" component = {ProfileEdit} title = "Editar Perfil" />
+      <Scene key = "productEdit" component = {ProductEdit} title = "Editar Produto" />
     </Stack>
   </Router>
 )

@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Image, StyleSheet, KeyboardAvoidingView, Text, TextInput, TouchableOpacity } from 'react-native';
 import { Actions } from 'react-native-router-flux';
+import axios from 'axios';
 
 const Login = () => {
   const goToSignUp = () => {
@@ -9,6 +10,7 @@ const Login = () => {
   const goToHome = () => {
     Actions.home()
   }
+
   return (
     <KeyboardAvoidingView style={styles.container}>
       <View style={styles.loginContainer}>
@@ -18,7 +20,7 @@ const Login = () => {
       <View style={styles.formContainer}>
         <TextInput style = {styles.input}
           autoCapitalize="none"
-          onSubmitEditing={() => this.passwordInput.focus()}
+          onSubmitEditing={() => this.emailInput.focus()}
           autoCorrect={false}
           keyboardType='email-address'
           returnKeyType="next"
