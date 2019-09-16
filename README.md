@@ -15,6 +15,12 @@ Projeto inicial de Engenharia de Software 2019.2
 #### Installing dependencies
 `npm install`
 
+#### Installing pods
+```
+cd ios
+pod install
+```
+
 #### Running the database
 `cd data` 
 `json-server --watch db.json`
