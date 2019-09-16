@@ -1,49 +1,76 @@
-import React from 'react';
-import { View, Image, StyleSheet, KeyboardAvoidingView, Text, TextInput, TouchableOpacity } from 'react-native';
+import React, { Component } from 'react';
+import { Alert, View, Image, StyleSheet, KeyboardAvoidingView, Text, TextInput, TouchableOpacity } from 'react-native';
 import { Actions } from 'react-native-router-flux';
-import axios from 'axios';
+import firebase from 'react-native-firebase';
 
-const Login = () => {
-  const goToSignUp = () => {
+export default class Login extends React.Component {
+  goToSignUp = () => {
     Actions.signup()
   }
-  const goToHome = () => {
+  goToHome = () => {
     Actions.home()
   }
 
-  return (
-    <KeyboardAvoidingView style={styles.container}>
-      <View style={styles.loginContainer}>
-        <Image resizeMode="contain" style={styles.logo} source={require('../../components/images/itrade-logo.png')} />
-      </View>
+  state = {
+    email: '',
+    password: '',
+    isAuthenticated: false,
+  }
 
-      <View style={styles.formContainer}>
-        <TextInput style = {styles.input}
-          autoCapitalize="none"
-          onSubmitEditing={() => this.passwordInput.focus()}
-          autoCorrect={false}
-          keyboardType='email-address'
-          returnKeyType="next"
-          placeholder='Email'
-          placeholderTextColor='#CD7F32'/>
+  login = async () => {
+    const { email, password } = this.state;
 
-        <TextInput style = {styles.input}
-          returnKeyType="go"
-          ref={(input)=> this.passwordInput = input}
-          placeholder='Senha'
-          placeholderTextColor='#CD7F32'
-          secureTextEntry/>
+    try {
+      const user = await firebase.auth()
+        .signInWithEmailAndPassword(email, password);
 
-        <TouchableOpacity style={styles.buttonContainer} onPress= {goToHome} >
-          <Text style={styles.buttonText}>LOGIN</Text>
-        </TouchableOpacity>
+      this.setState({ isAuthenticated: true });
+      this.goToHome();
+      console.log(user);
+    } catch (err) {
+      Alert.alert('Usuário ou senha inválida')
+      console.log(err);
+    }
+  }
 
-        <TouchableOpacity style={styles.signupButton} onPress = {goToSignUp} >
-          <Text style={styles.signupButton}>Registre-se</Text>
-        </TouchableOpacity>
-      </View>
-    </KeyboardAvoidingView>
-  );
+  render() {
+    return (
+      <KeyboardAvoidingView style={styles.container}>
+        <View style={styles.loginContainer}>
+          <Image resizeMode="contain" style={styles.logo} source={require('../../components/images/itrade-logo.png')} />
+        </View>
+
+        <View style={styles.formContainer}>
+          <TextInput style = {styles.input}
+            value={this.state.email}
+            onChangeText={email => this.setState({ email })}
+            autoCapitalize="none"
+            onSubmitEditing={() => this.passwordInput.focus()}
+            autoCorrect={false}
+            keyboardType='email-address'
+            returnKeyType="next"
+            placeholder='Email'
+            placeholderTextColor='#CD7F32'/>
+
+          <TextInput style = {styles.input}
+            value={this.state.password}
+            onChangeText={password => this.setState({ password })}
+            returnKeyType="go"
+            placeholder='Senha'
+            placeholderTextColor='#CD7F32'
+            secureTextEntry/>
+
+          <TouchableOpacity style={styles.buttonContainer} onPress= {this.login} >
+            <Text style={styles.buttonText}>LOGIN</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity style={styles.signupButton} onPress = {this.goToSignUp} >
+            <Text style={styles.signupButton}>Registre-se</Text>
+          </TouchableOpacity>
+        </View>
+      </KeyboardAvoidingView>
+    );
+  }
 }
 
 const styles = StyleSheet.create({
@@ -85,5 +112,3 @@ const styles = StyleSheet.create({
     color: '#CD7F32'
   }
 })
-
-export default Login;
