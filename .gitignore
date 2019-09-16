@@ -61,4 +61,5 @@ yarn-error.log*
 /.changelog
 .npm/
 ios/build
+ios/Pods
 android/build

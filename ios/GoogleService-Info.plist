@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>176181488819-kl1n5fp1dvbbolfi84o7ina2h1v5g6lh.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.176181488819-kl1n5fp1dvbbolfi84o7ina2h1v5g6lh</string>
+	<key>API_KEY</key>
+	<string>AIzaSyBpv8HAWCQ04i0_PU0bLKIT0wXemr_HrLY</string>
+	<key>GCM_SENDER_ID</key>
+	<string>176181488819</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.itrade-ios.firebase</string>
+	<key>PROJECT_ID</key>
+	<string>itrade-8e6c0</string>
+	<key>STORAGE_BUCKET</key>
+	<string>itrade-8e6c0.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:176181488819:ios:30536a832eb521b278d4c6</string>
+	<key>DATABASE_URL</key>
+	<string>https://itrade-8e6c0.firebaseio.com</string>
+</dict>
+</plist>
