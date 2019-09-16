@@ -20,7 +20,7 @@ const Login = () => {
       <View style={styles.formContainer}>
         <TextInput style = {styles.input}
           autoCapitalize="none"
-          onSubmitEditing={() => this.emailInput.focus()}
+          onSubmitEditing={() => this.passwordInput.focus()}
           autoCorrect={false}
           keyboardType='email-address'
           returnKeyType="next"
