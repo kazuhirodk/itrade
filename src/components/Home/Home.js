@@ -10,6 +10,10 @@ const goToProfileEdit = () => {
   Actions.profileEdit()
 }
 
+const goToProductEdit = () => {
+  Actions.productEdit()
+}
+
 export default class Home extends React.Component {
   render() {
     return (
@@ -18,6 +22,11 @@ export default class Home extends React.Component {
           color='#FD6D64'
           title='Editar Perfil'
           onPress = {goToProfileEdit}
+        />
+        <Button
+          color='#CD7F32'
+          title='Editar Produto'
+          onPress = {goToProductEdit}
         />
       </View>
     )
