@@ -6,6 +6,7 @@ import {
   StyleSheet,
   Text
 } from 'react-native';
+import firebase from "firebase";
 
 export default class SignUp extends React.Component {
   state = {
@@ -18,9 +19,14 @@ export default class SignUp extends React.Component {
     const { username, password, email, phone_number } = this.state
     try {
       // Talvez aqui implementemos a lógica do login
-      console.log('Login feito com sucesso!', success)
+      axios
+      .post("https://itrade-8e6c0.firebaseio.com/usuarios.json", this.state)
+      .then(response => console.log(response))
+      .catch(error => console.log(error));
+
+      console.log('Cadastro feito com sucesso!', success)
     } catch (err) {
-      console.log('Erro no login: ', err)
+      console.log('Erro no cadastro: ', err)
     }
   }
 
@@ -33,7 +39,7 @@ export default class SignUp extends React.Component {
           placeholder='Nome'
           autoCapitalize="none"
           placeholderTextColor='#CD7F32'
-          onChangeText={val => this.onChangeText('username', val)}
+          onChangeText={val => this.onChangeText('nome_usuario', val)}
         />
         <TextInput
           style={styles.input}
@@ -41,7 +47,7 @@ export default class SignUp extends React.Component {
           secureTextEntry={true}
           autoCapitalize="none"
           placeholderTextColor='#CD7F32'
-          onChangeText={val => this.onChangeText('password', val)}
+          onChangeText={val => this.onChangeText('senha', val)}
         />
         <TextInput
           style={styles.input}
@@ -55,7 +61,7 @@ export default class SignUp extends React.Component {
           placeholder='Telefone'
           autoCapitalize="none"
           placeholderTextColor='#CD7F32'
-          onChangeText={val => this.onChangeText('phone_number', val)}
+          onChangeText={val => this.onChangeText('telefone', val)}
         />
         <Button
           color='#239033'

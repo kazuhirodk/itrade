@@ -1,7 +1,15 @@
 import React, { Component } from 'react';
 import { Alert, View, Image, StyleSheet, KeyboardAvoidingView, Text, TextInput, TouchableOpacity } from 'react-native';
 import { Actions } from 'react-native-router-flux';
-import firebase from 'react-native-firebase';
+//import firebase from 'react-native-firebase';
+import firebase from "firebase";
+
+// firebase.initializeApp({
+//   apiKey: "AIzaSyAYHzIIpzABSqy_zvAa-f-j9nXvDuwGDiQ",
+//   authDomain: "projName-d0c3e.firebaseapp.com",
+//   databaseURL: "https://itrade-8e6c0.firebaseio.com",
+//   storageBucket: "projName-d0c3e.appspot.com"
+// });
 
 export default class Login extends React.Component {
   goToSignUp = () => {
