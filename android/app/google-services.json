@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "176181488819",
+    "firebase_url": "https://itrade-8e6c0.firebaseio.com",
+    "project_id": "itrade-8e6c0",
+    "storage_bucket": "itrade-8e6c0.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:176181488819:android:7110c1357769128478d4c6",
+        "android_client_info": {
+          "package_name": "com.itrade"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "176181488819-fbo2mq32u2nto2bm8jr0jc09s825utmr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCzSM-EZ1QgSfe3178_aX_KEYefMvedI7U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "176181488819-fbo2mq32u2nto2bm8jr0jc09s825utmr.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
