@@ -7,20 +7,24 @@ import {
   Text
 } from 'react-native';
 
+import FirebaseService from '../../../services/FirebaseService';
+
 export default class SignUp extends React.Component {
   state = {
-    username: '', password: '', email: '', phone_number: ''
+    nome_usuario: '', senha: '', email: '', telefone: ''
   }
   onChangeText = (key, val) => {
     this.setState({ [key]: val })
   }
   signUp = async () => {
-    const { username, password, email, phone_number } = this.state
+    const { nome_usuario, senha, email, telefone } = this.state
     try {
-      // Talvez aqui implementemos a lógica do login
-      console.log('Login feito com sucesso!', success)
+      const newid = FirebaseService.pushData('usuarios', this.state);
+      alert('Cadastro feito com sucesso!')
+
+      //limpar campos da tela
     } catch (err) {
-      console.log('Erro no login: ', err)
+      alert('Erro no cadastro: ', err)
     }
   }
 
@@ -33,7 +37,7 @@ export default class SignUp extends React.Component {
           placeholder='Nome'
           autoCapitalize="none"
           placeholderTextColor='#CD7F32'
-          onChangeText={val => this.onChangeText('username', val)}
+          onChangeText={val => this.onChangeText('nome_usuario', val)}
         />
         <TextInput
           style={styles.input}
@@ -41,7 +45,7 @@ export default class SignUp extends React.Component {
           secureTextEntry={true}
           autoCapitalize="none"
           placeholderTextColor='#CD7F32'
-          onChangeText={val => this.onChangeText('password', val)}
+          onChangeText={val => this.onChangeText('senha', val)}
         />
         <TextInput
           style={styles.input}
@@ -55,7 +59,7 @@ export default class SignUp extends React.Component {
           placeholder='Telefone'
           autoCapitalize="none"
           placeholderTextColor='#CD7F32'
-          onChangeText={val => this.onChangeText('phone_number', val)}
+          onChangeText={val => this.onChangeText('telefone', val)}
         />
         <Button
           color='#239033'
