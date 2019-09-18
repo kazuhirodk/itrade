@@ -10,6 +10,10 @@ const goToProfileEdit = () => {
   Actions.profileEdit()
 }
 
+const goToProductCreate = () => {
+    Actions.productCreate()
+  }
+
 const goToProductEdit = () => {
   Actions.productEdit()
 }
@@ -22,6 +26,11 @@ export default class Home extends React.Component {
           color='#FD6D64'
           title='Editar Perfil'
           onPress = {goToProfileEdit}
+        />
+        <Button
+          color='#CD7F32'
+          title='Cadastrar Produto'
+          onPress = {goToProductCreate}
         />
         <Button
           color='#CD7F32'
