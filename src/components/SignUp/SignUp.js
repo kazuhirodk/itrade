@@ -8,6 +8,8 @@ import {
 } from 'react-native';
 
 import FirebaseService from '../../../services/FirebaseService';
+import firebase from 'react-native-firebase';
+import { Actions } from 'react-native-router-flux';
 
 export default class SignUp extends React.Component {
   state = {
@@ -16,14 +18,17 @@ export default class SignUp extends React.Component {
   onChangeText = (key, val) => {
     this.setState({ [key]: val })
   }
-  signUp = async () => {
-    const { nome_usuario, senha, email, telefone } = this.state
+  signUp = async () => {  
     try {
-      const newid = FirebaseService.pushData('usuarios', this.state);
-      alert('Cadastro feito com sucesso!')
-
-      //limpar campos da tela
-    } catch (err) {
+      await firebase.auth()
+        .createUserWithEmailAndPassword(this.state.email, this.state.senha)
+        .then((res) => {       
+          const newid = FirebaseService.pushData('usuarios', this.state);
+          alert('Cadastro feito com sucesso!')
+          //redirecionar para tela de login
+        }).catch(error => this.setState({ errorMessage: error.message }))    
+    }    
+    catch (err) {
       alert('Erro no cadastro: ', err)
     }
   }
