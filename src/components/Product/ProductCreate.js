@@ -13,21 +13,16 @@ const options = {
 };
 
 export default class ProductCreate extends React.Component {
-  /* state = {
-      username: '', password: '', email: '', phone_number: ''
+   state = {
+      pName: '', descricao: '', preco: '', foto: ''
     }
     onChangeText = (key, val) => {
       this.setState({ [key]: val })
     }
     signUp = async () => {
-      const { username, password, email, phone_number } = this.state
-      try {
-        // Talvez aqui implementemos a lógica do login
-        console.log('Login feito com sucesso!', success)
-      } catch (err) {
-        console.log('Erro no login: ', err)
-      }
-    } */
+      const { pName, descricao, preco, foto } = this.state
+      
+    } 
 
   uploadImg = async () => {
     ImagePicker.showImagePicker(options, response => {
@@ -46,7 +41,7 @@ export default class ProductCreate extends React.Component {
         // const source = { uri: 'data:image/jpeg;base64,' + response.data };
 
         this.setState({
-          avatarSource: source
+          foto: source
         });
       }
     });
@@ -61,14 +56,14 @@ export default class ProductCreate extends React.Component {
           placeholder="Nome do Produto"
           autoCapitalize="none"
           placeholderTextColor="#CD7F32"
-          //onChangeText={val => this.onChangeText('username', val)}
+          onChangeText={val => this.onChangeText('pName', val)}
         />
         <TextInput
           style={styles.descript}
           placeholder="Descrição"
           autoCapitalize="none"
           placeholderTextColor="#CD7F32"
-          //onChangeText={val => this.onChangeText('password', val)}
+          onChangeText={val => this.onChangeText('descricao', val)}
         />
         <TextInput
           style={styles.input}
@@ -76,7 +71,7 @@ export default class ProductCreate extends React.Component {
           autoCapitalize="none"
           keyboardType="numeric"
           placeholderTextColor="#CD7F32"
-          // onChangeText={val => this.onChangeText('email', val)}
+          onChangeText={val => this.onChangeText('preco', val)}
         />
 
         <Button style={styles.button}
@@ -89,7 +84,7 @@ export default class ProductCreate extends React.Component {
         <Button
           color="#239033"
           title="Cadastrar"
-          //onPress={this.signUp}
+          onPress={this.signUp}
         />
       </View>
     );
