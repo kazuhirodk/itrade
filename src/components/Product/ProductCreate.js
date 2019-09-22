@@ -4,6 +4,8 @@ import ImagePicker from "react-native-image-picker";
 
 import { View, Button, TextInput, StyleSheet, Text } from "react-native";
 
+import firebase from 'react-native-firebase'
+
 const options = {
   title: "Foto do Produto",
   storageOptions: {
@@ -14,14 +16,37 @@ const options = {
 
 export default class ProductCreate extends React.Component {
    state = {
-      pName: '', descricao: '', preco: '', foto: ''
+      pName: '', descricao: '', preco: '', foto: {}
     }
     onChangeText = (key, val) => {
       this.setState({ [key]: val })
     }
     signUp = async () => {
       const { pName, descricao, preco, foto } = this.state
-      
+      const imagePath = foto.path;
+      const ref = firebase.storage().ref('/' + foto.fileName);
+
+      const uploadTask = ref.putFile(imagePath);
+
+      // .on observer is completely optional (can instead use .then/.catch), but allows you to
+      // do things like a progress bar for example
+      uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED, (snapshot) => {
+        // observe state change events such as progress
+        // get task progress, including the number of bytes uploaded and the total number of    bytes to be uploaded
+        const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        console.log(`Upload is ${progress}% done`);
+
+        switch (snapshot.state) {
+          case firebase.storage.TaskState.SUCCESS: // or 'success'
+            console.log('Upload is complete');
+            break;
+          case firebase.storage.TaskState.RUNNING: // or 'running'
+            console.log('Upload is running');
+            break;
+        }
+      }, (error) => {
+        console.error(error);
+      })
     } 
 
   uploadImg = async () => {
@@ -35,7 +60,7 @@ export default class ProductCreate extends React.Component {
       } else if (response.customButton) {
         console.log("User tapped custom button: ", response.customButton);
       } else {
-        const source = { uri: response.uri };
+        const source = { uri: response.uri, path: response.path, fileName: response.fileName };
 
         // You can also display the image using data:
         // const source = { uri: 'data:image/jpeg;base64,' + response.data };
