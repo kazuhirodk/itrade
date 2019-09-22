@@ -7,20 +7,29 @@ import {
   Text
 } from 'react-native';
 
+import FirebaseService from '../../../services/FirebaseService';
+import firebase from 'react-native-firebase';
+import { Actions } from 'react-native-router-flux';
+
 export default class SignUp extends React.Component {
   state = {
-    username: '', password: '', email: '', phone_number: ''
+    nome_usuario: '', senha: '', email: '', telefone: ''
   }
   onChangeText = (key, val) => {
     this.setState({ [key]: val })
   }
-  signUp = async () => {
-    const { username, password, email, phone_number } = this.state
+  signUp = async () => {  
     try {
-      // Talvez aqui implementemos a lógica do login
-      console.log('Login feito com sucesso!', success)
-    } catch (err) {
-      console.log('Erro no login: ', err)
+      await firebase.auth()
+        .createUserWithEmailAndPassword(this.state.email, this.state.senha)
+        .then((res) => {       
+          const newid = FirebaseService.pushData('usuarios', this.state);
+          alert('Cadastro feito com sucesso!')
+          //redirecionar para tela de login
+        }).catch(error => this.setState({ errorMessage: error.message }))    
+    }    
+    catch (err) {
+      alert('Erro no cadastro: ', err)
     }
   }
 
@@ -33,7 +42,7 @@ export default class SignUp extends React.Component {
           placeholder='Nome'
           autoCapitalize="none"
           placeholderTextColor='#CD7F32'
-          onChangeText={val => this.onChangeText('username', val)}
+          onChangeText={val => this.onChangeText('nome_usuario', val)}
         />
         <TextInput
           style={styles.input}
@@ -41,7 +50,7 @@ export default class SignUp extends React.Component {
           secureTextEntry={true}
           autoCapitalize="none"
           placeholderTextColor='#CD7F32'
-          onChangeText={val => this.onChangeText('password', val)}
+          onChangeText={val => this.onChangeText('senha', val)}
         />
         <TextInput
           style={styles.input}
@@ -55,7 +64,7 @@ export default class SignUp extends React.Component {
           placeholder='Telefone'
           autoCapitalize="none"
           placeholderTextColor='#CD7F32'
-          onChangeText={val => this.onChangeText('phone_number', val)}
+          onChangeText={val => this.onChangeText('telefone', val)}
         />
         <Button
           color='#239033'
