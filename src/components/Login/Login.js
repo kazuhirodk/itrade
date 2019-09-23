@@ -17,6 +17,13 @@ export default class Login extends React.Component {
     isAuthenticated: false,
   }
 
+  componentDidMount() {
+    firebase.auth().onAuthStateChanged(user => {
+      if(user)
+        this.goToHome()    
+    })
+  }
+
   login = async () => {
     const { email, password } = this.state;
 
@@ -24,9 +31,11 @@ export default class Login extends React.Component {
       const user = await firebase.auth()
         .signInWithEmailAndPassword(email, password);
 
-      this.setState({ isAuthenticated: true });
+      //this.setState({ isAuthenticated: true });
+      const { currentUser } = firebase.auth()
+      this.setState({ currentUser })
       this.goToHome();
-      console.log(user);
+      //console.log(user);
     } catch (err) {
       Alert.alert('Usuário ou senha inválida')
       console.log(err);
