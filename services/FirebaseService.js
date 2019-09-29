@@ -51,9 +51,9 @@ export default class FirebaseService {
         return id;
     };
     static updateData = (node, objToSubmit) => {
-        const ref = firebaseDatabase.ref(node).update({
+        const ref = firebaseDatabase.ref(node).update(
             objToSubmit
-        })
+        )
         .catch(function (err) {
             console.log("one of these updates failed", err);
            });

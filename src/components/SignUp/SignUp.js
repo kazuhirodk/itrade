@@ -25,7 +25,7 @@ export default class SignUp extends React.Component {
         .then((res) => {       
           const newid = FirebaseService.pushData('usuarios', this.state);
           alert('Cadastro feito com sucesso!')
-          //redirecionar para tela de login
+          Actions.login()
         }).catch(error => this.setState({ errorMessage: error.message }))    
     }    
     catch (err) {
