@@ -18,6 +18,10 @@ const goToProductEdit = () => {
   Actions.productEdit()
 }
 
+const goToSelect = () => {
+  Actions.select()
+}
+
 export default class Home extends React.Component {
   render() {
     return (
@@ -36,6 +40,11 @@ export default class Home extends React.Component {
           color='#CD7F32'
           title='Editar Produto'
           onPress = {goToProductEdit}
+        />
+        <Button
+          color='#CD7F32'
+          title='Selecionar produtos'
+          onPress = {goToSelect}
         />
       </View>
     )

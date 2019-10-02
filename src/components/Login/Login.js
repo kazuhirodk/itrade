@@ -60,7 +60,7 @@ export default class Login extends React.Component {
             placeholderTextColor='#CD7F32'
             secureTextEntry/>
 
-          <TouchableOpacity style={styles.buttonContainer} onPress= {this.login} >
+          <TouchableOpacity style={styles.buttonContainer} onPress= {this.goToHome} >
             <Text style={styles.buttonText}>LOGIN</Text>
           </TouchableOpacity>
 
