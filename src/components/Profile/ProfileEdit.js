@@ -8,44 +8,86 @@ import {
   TextInput,
   Button
 } from 'react-native';
+import FirebaseService from '../../../services/FirebaseService';
+import firebase from 'react-native-firebase';
 
 const goToHome = () => {
   Actions.home()
 }
 
+
 export default class Profile extends Component {
+
+  state = {
+    nome_usuario: '',
+    email: '',
+    telefone:''
+  }
+  key = ''
+
+  componentDidMount(){
+    firebase.auth().onAuthStateChanged(userLogged => {
+      const list = FirebaseService.getDataList('usuarios', function(){});  
+      list.orderByChild("email").equalTo(userLogged.email).on("child_added", snapshot => {   
+        let user = snapshot.val()
+        this.setState({
+          nome_usuario: user.nome_usuario,
+          email: user.email,
+          telefone: user.telefone
+        })
+        key = snapshot.key
+      });
+    })      
+  }
+
+  onChangeText = (key, val) => {
+    this.setState({ [key]: val })
+  }
+
+  updateUser = async() => {
+     try {
+       FirebaseService.updateData('usuarios/' + key, this.state);  
+       alert("Atualização realizada com sucesso!")
+     } catch(e){
+       alert("Atualização falhou.")
+    }
+  }
+
   render() {
     return (
       <View style={styles.container}>
         <View style={styles.header}></View>
         <Image style={styles.avatar} source={require('../../components/images/avatar.png')}/>
         <View style={styles.body}>
-          <Text style={styles.name}>Fox Developer</Text>
-          <Text style={styles.info}>Mobile Developer / UX Designer</Text>
-          <Text style={styles.description}>Lorem ipsum dolor sit amet, saepe sapientem eu nam. Qui ne assum electram expetendis, omittam deseruisse consequuntur ius an</Text>
         </View>
         <TextInput
           style={styles.input}
           placeholder='Nome'
           autoCapitalize="none"
           placeholderTextColor='#CD7F32'
+          onChangeText={val => this.onChangeText('nome_usuario', val)}
+          value={this.state.nome_usuario}
         />
         <TextInput
           style={styles.input}
           placeholder='Email'
           autoCapitalize="none"
           placeholderTextColor='#CD7F32'
+          onChangeText={val => this.onChangeText('email', val)}
+          value={this.state.email}
         />
         <TextInput
           style={styles.input}
           placeholder='Telefone'
           autoCapitalize="none"
           placeholderTextColor='#CD7F32'
+          onChangeText={val => this.onChangeText('telefone', val)}
+          value={this.state.telefone}
         />
         <Button
           color='#239033'
           title='Salvar dados'
-          onPress={goToHome}
+          onPress={this.updateUser}
         />
       </View>
     );

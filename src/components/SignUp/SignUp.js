@@ -4,7 +4,8 @@ import {
   Button,
   TextInput,
   StyleSheet,
-  Text
+  Text,
+  Picker
 } from 'react-native';
 
 import FirebaseService from '../../../services/FirebaseService';
@@ -12,8 +13,9 @@ import firebase from 'react-native-firebase';
 import { Actions } from 'react-native-router-flux';
 
 export default class SignUp extends React.Component {
+  /*conforme conversamos, os produtos vao ser salvos dentro de uma lisa dentro do usuario*/
   state = {
-    nome_usuario: '', senha: '', email: '', telefone: ''
+    nome_usuario: '', senha: '', email: '', telefone: '', plano: '', likes: '', produtos: []
   }
   onChangeText = (key, val) => {
     this.setState({ [key]: val })
@@ -25,7 +27,7 @@ export default class SignUp extends React.Component {
         .then((res) => {       
           const newid = FirebaseService.pushData('usuarios', this.state);
           alert('Cadastro feito com sucesso!')
-          //redirecionar para tela de login
+          Actions.login()
         }).catch(error => this.setState({ errorMessage: error.message }))    
     }    
     catch (err) {
@@ -66,6 +68,21 @@ export default class SignUp extends React.Component {
           placeholderTextColor='#CD7F32'
           onChangeText={val => this.onChangeText('telefone', val)}
         />
+        <Picker
+        selectedValue={this.state.plano}
+        style={{height: 50, width: 100}}
+        onValueChange={(itemValue, itemIndex) => {
+         /* Seta o numero de likes para 5 se for plano free*/
+          if(itemValue == 'Free'){
+          this.setState({plano: itemValue, likes:'5'})
+          }
+          this.setState({plano: itemValue, likes:'ilimitado'})
+        } 
+        }>
+      
+        <Picker.Item label="Free" value="Free" />
+        <Picker.Item label="Premium" value="Premium" />
+        </Picker>
         <Button
           color='#239033'
           title='Registrar'

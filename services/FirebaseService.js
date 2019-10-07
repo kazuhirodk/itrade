@@ -1,4 +1,5 @@
 import {firebaseDatabase} from '../firebase'
+import firebase from 'react-native-firebase';
 export default class FirebaseService {
     //nodepath: caminho do banco do de dados
     static getDataList = (nodePath, callback, size = 10) => {
@@ -50,13 +51,25 @@ export default class FirebaseService {
         ref.set(objToSubmit);
         return id;
     };
+
     static updateData = (node, objToSubmit) => {
-        const ref = firebaseDatabase.ref(node).update({
+        const ref = firebaseDatabase.ref(node).update(
             objToSubmit
-        })
+        )
         .catch(function (err) {
             console.log("one of these updates failed", err);
-           });
-        
+           });        
+    };
+
+    static getCurrentUser = async() =>  {    
+        let user = await firebase.auth().onAuthStateChanged(userLogged => {
+            const list = this.getDataList('usuarios', function(){});  
+            list.orderByChild("email").equalTo(userLogged.email).on("child_added", snapshot => {   
+                // alert(snapshot.val().nome_usuario)
+                return snapshot.val()
+            });        
+        })       
+        // alert(user.email)
+        //return user
     };
 }

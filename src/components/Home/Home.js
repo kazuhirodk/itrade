@@ -5,20 +5,23 @@ import {
   StyleSheet
 } from 'react-native';
 import { Actions } from 'react-native-router-flux';
+import FirebaseService from '../../../services/FirebaseService';
+import firebase from 'react-native-firebase';
 
 const goToProfileEdit = () => {
   Actions.profileEdit()
 }
 
 const goToProductCreate = () => {
-    Actions.productCreate()
-  }
+  Actions.productCreate()
+}
 
 const goToProductEdit = () => {
   Actions.productEdit()
 }
 
 export default class Home extends React.Component {
+  
   render() {
     return (
       <View style={styles.container}>
