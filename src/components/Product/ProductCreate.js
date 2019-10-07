@@ -6,28 +6,48 @@ import { View, Button, TextInput, StyleSheet, Text } from "react-native";
 
 import firebase from 'react-native-firebase'
 
+import FirebaseService from '../../../services/FirebaseService';
+
 const options = {
   title: "Foto do Produto",
   storageOptions: {
     skipBackup: true,
     path: "images"
   }
-};
+}
 
 export default class ProductCreate extends React.Component {
-   state = {
-      pName: '', descricao: '', preco: '', foto: {}
+    key = ''
+
+    componentDidMount() {
+      firebase.auth().onAuthStateChanged(userLogged => {
+        const list = FirebaseService.getDataList('usuarios', function(){});  
+        list.orderByChild("email").equalTo(userLogged.email).on("child_added", snapshot => {   
+          key = snapshot.key
+        });
+      })
     }
+
     onChangeText = (key, val) => {
-      this.setState({ [key]: val })
+      this.setState({[key]: val})
     }
-    signUp = async () => {
-      const { pName, descricao, preco, foto } = this.state
-      const imagePath = foto.path;
-      const ref = firebase.storage().ref('/' + foto.fileName);
-
+    
+    create = async () => {
+      const imagePath = this.state.foto.path;
+      const ref = firebase.storage().ref('/' + this.state.foto.fileName)
+      
+      ref.getDownloadURL().then((url) => {         
+        this.setState({'foto': url})
+        try{
+          let id = FirebaseService.pushData('usuarios/' + key + '/produtos', this.state)
+          alert('Produto cadastrado com sucesso!')       
+          //limpar tela 
+        }
+        catch(e){
+          alert('Falha ao cadastrar produto.' + e)
+        }
+      })
       const uploadTask = ref.putFile(imagePath);
-
       // .on observer is completely optional (can instead use .then/.catch), but allows you to
       // do things like a progress bar for example
       uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED, (snapshot) => {
@@ -81,7 +101,7 @@ export default class ProductCreate extends React.Component {
           placeholder="Nome do Produto"
           autoCapitalize="none"
           placeholderTextColor="#CD7F32"
-          onChangeText={val => this.onChangeText('pName', val)}
+          onChangeText={val => this.onChangeText('nome', val)}
         />
         <TextInput
           style={styles.descript}
@@ -109,7 +129,7 @@ export default class ProductCreate extends React.Component {
         <Button
           color="#239033"
           title="Cadastrar"
-          onPress={this.signUp}
+          onPress={this.create}
         />
       </View>
     );

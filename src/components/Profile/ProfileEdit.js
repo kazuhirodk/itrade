@@ -19,11 +19,11 @@ const goToHome = () => {
 export default class Profile extends Component {
 
   state = {
-    key: '',
     nome_usuario: '',
     email: '',
     telefone:''
   }
+  key = ''
 
   componentDidMount(){
     firebase.auth().onAuthStateChanged(userLogged => {
@@ -33,12 +33,11 @@ export default class Profile extends Component {
         this.setState({
           nome_usuario: user.nome_usuario,
           email: user.email,
-          telefone: user.telefone,
-          key: snapshot.key
+          telefone: user.telefone
         })
+        key = snapshot.key
       });
-      
-    })
+    })      
   }
 
   onChangeText = (key, val) => {
@@ -47,7 +46,7 @@ export default class Profile extends Component {
 
   updateUser = async() => {
      try {
-       FirebaseService.updateData('usuarios/' + this.state.key, this.state);  
+       FirebaseService.updateData('usuarios/' + key, this.state);  
        alert("Atualização realizada com sucesso!")
      } catch(e){
        alert("Atualização falhou.")
