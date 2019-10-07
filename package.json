@@ -13,11 +13,13 @@
     "native-base": "^2.13.5",
     "react": "16.8.6",
     "react-native": "0.60.5",
+    "react-native-deck-swiper": "^1.6.7",
     "react-native-firebase": "^5.5.6",
     "react-native-gesture-handler": "^1.4.1",
     "react-native-image-picker": "^1.1.0",
     "react-native-navigation": "^3.1.2",
     "react-native-router-flux": "^4.0.6",
+    "react-native-view-overflow": "0.0.4",
     "react-navigation": "^4.0.0",
     "react-navigation-stack": "^1.5.1"
   },
