@@ -3,6 +3,7 @@ import {
   View,
   Button,
   StyleSheet,
+  Image,
 } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 
@@ -31,13 +32,12 @@ export default class Select extends React.Component{
     return (
       <View style={styles.container}>
         <View>
+          <Image style={styles.produto} source={require('../../components/images/product1.png')}/>
           <Button
             color='#FD6D64'
             title='Não'
             onPress = {this.goToProdutosExpirados}
           />
-        </View>
-        <View>
           <Button
             color='#FD6D64'
             title='Sim'
@@ -55,5 +55,14 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#FFFAFA',
     alignContent: 'center'
+  },
+  produto: {
+    width: 300,
+    height: 300,
+    borderRadius: 50,
+    borderWidth: 4,
+    alignSelf:'center',
+    marginTop:10,
+    marginBottom: 100,
   }
 })

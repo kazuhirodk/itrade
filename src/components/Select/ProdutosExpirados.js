@@ -45,7 +45,7 @@ const styles = StyleSheet.create({
     padding: 20,
     flex: 1,
     backgroundColor: '#FFFAFA',
-    alignContent: 'center'
+    alignContent: 'center',
   },
   body:{
     marginTop: 40,
