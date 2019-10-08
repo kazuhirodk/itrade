@@ -2,7 +2,10 @@ import React from 'react';
 import {
   View,
   Button,
-  StyleSheet
+  StyleSheet,
+  TouchableOpacity,
+  Text,
+  Image
 } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import FirebaseService from '../../../services/FirebaseService';
@@ -20,29 +23,70 @@ const goToProductEdit = () => {
   Actions.productEdit()
 }
 
+const goToTrade = () => {
+  Actions.productTrade()
+}
+
 export default class Home extends React.Component {
   
   render() {
     return (
       <View style={styles.container}>
-        <Button
-          color='#FD6D64'
-          title='Editar Perfil'
-          onPress = {goToProfileEdit}
-        />
+        {
+          state.products.map((item, index) => (
+            <TouchableOpacity
+              key = {item.id}
+              style = {styles.product_container}
+              onPress = {goToProfileEdit}>
+              <Image style={{width: 50, height: 50}} source={item.sourceImage}/>
+              <Text style = {styles.text}>
+                {item.name}
+              </Text>
+              <Button
+                style={styles.product_button}
+                color='#CD7F32'
+                title='Editar'
+                onPress = {goToProductEdit}
+              />
+              <Button
+                style={styles.product_button}
+                color='#4f603c'
+                title='Trocar'
+                onPress = {goToTrade}
+              />
+            </TouchableOpacity>
+          ))
+        }
+
         <Button
           color='#CD7F32'
           title='Cadastrar Produto'
           onPress = {goToProductCreate}
         />
+
         <Button
-          color='#CD7F32'
-          title='Editar Produto'
-          onPress = {goToProductEdit}
+          color='#FD6D64'
+          title='Editar Perfil'
+          onPress = {goToProfileEdit}
         />
       </View>
     )
   }
+}
+
+const state = {
+  products: [
+    {
+      id: 0,
+      name: 'Product 1',
+      sourceImage: require('../../components/images/product1.png'),
+    },
+    {
+      id: 1,
+      name: 'Product 2',
+      sourceImage: require('../../components/images/product1.png'),
+    }
+  ]
 }
 
 const styles = StyleSheet.create({
@@ -51,5 +95,20 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#FFFAFA',
     alignContent: 'center'
+  },
+  text: {
+    color: '#4f603c',
+    padding: 10
+  },
+  product_container: {
+    padding: 10,
+    marginTop: 3,
+    backgroundColor: '#FFFAFA',
+    alignItems: 'center',
+    flexDirection: 'row',
+  },
+  product_button: {
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
   }
 })
