@@ -1,0 +1,183 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`#ProductEdit matchs snapshot properly 1`] = `
+<View
+  style={
+    Object {
+      "alignContent": "center",
+      "backgroundColor": "#FFFAFA",
+      "flex": 1,
+      "padding": 20,
+    }
+  }
+>
+  <View
+    style={
+      Object {
+        "backgroundColor": "#CD7F32",
+        "height": 200,
+      }
+    }
+  />
+  <Image
+    source={
+      Object {
+        "testUri": "../../../src/components/images/product1.png",
+      }
+    }
+    style={
+      Object {
+        "alignSelf": "center",
+        "borderColor": "white",
+        "borderRadius": 63,
+        "borderWidth": 4,
+        "height": 130,
+        "marginBottom": 10,
+        "marginTop": 130,
+        "position": "absolute",
+        "width": 130,
+      }
+    }
+  />
+  <View
+    style={
+      Object {
+        "alignItems": "center",
+        "marginBottom": 40,
+        "marginTop": 40,
+      }
+    }
+  >
+    <Text
+      style={
+        Object {
+          "color": "#696969",
+          "fontSize": 28,
+          "fontWeight": "600",
+        }
+      }
+    >
+      Product Name
+    </Text>
+    <Text
+      style={
+        Object {
+          "color": "#CD7F32",
+          "fontSize": 16,
+          "marginTop": 10,
+        }
+      }
+    >
+      Preço médio: R$ 97,00
+    </Text>
+    <Text
+      style={
+        Object {
+          "color": "#696969",
+          "fontSize": 16,
+          "marginTop": 10,
+          "textAlign": "center",
+        }
+      }
+    >
+      Lorem ipsum dolor sit amet, saepe sapientem eu nam. Qui ne assum electram expetendis, omittam deseruisse consequuntur ius an
+    </Text>
+  </View>
+  <TextInput
+    allowFontScaling={true}
+    autoCapitalize="none"
+    placeholder="Nome"
+    placeholderTextColor="#CD7F32"
+    rejectResponderTermination={true}
+    style={
+      Object {
+        "backgroundColor": "#E3E1E1",
+        "color": "#000",
+        "height": 40,
+        "marginBottom": 10,
+        "padding": 10,
+      }
+    }
+    underlineColorAndroid="transparent"
+  />
+  <TextInput
+    allowFontScaling={true}
+    autoCapitalize="none"
+    placeholder="Preço"
+    placeholderTextColor="#CD7F32"
+    rejectResponderTermination={true}
+    style={
+      Object {
+        "backgroundColor": "#E3E1E1",
+        "color": "#000",
+        "height": 40,
+        "marginBottom": 10,
+        "padding": 10,
+      }
+    }
+    underlineColorAndroid="transparent"
+  />
+  <TextInput
+    allowFontScaling={true}
+    autoCapitalize="none"
+    placeholder="Nova Descrição"
+    placeholderTextColor="#CD7F32"
+    rejectResponderTermination={true}
+    style={
+      Object {
+        "backgroundColor": "#E3E1E1",
+        "color": "#000",
+        "height": 40,
+        "marginBottom": 10,
+        "padding": 10,
+      }
+    }
+    underlineColorAndroid="transparent"
+  />
+  <View
+    accessibilityRole="button"
+    accessibilityStates={Array []}
+    accessible={true}
+    clickable={true}
+    isTVSelectable={true}
+    onClick={[Function]}
+    onResponderGrant={[Function]}
+    onResponderMove={[Function]}
+    onResponderRelease={[Function]}
+    onResponderTerminate={[Function]}
+    onResponderTerminationRequest={[Function]}
+    onStartShouldSetResponder={[Function]}
+    style={
+      Object {
+        "opacity": 1,
+      }
+    }
+  >
+    <View
+      style={
+        Array [
+          Object {},
+        ]
+      }
+    >
+      <Text
+        style={
+          Array [
+            Object {
+              "color": "#007AFF",
+              "fontSize": 18,
+              "padding": 8,
+              "textAlign": "center",
+            },
+            Object {
+              "color": "#239033",
+            },
+          ]
+        }
+      >
+        Salvar
+      </Text>
+    </View>
+  </View>
+</View>
+`;
