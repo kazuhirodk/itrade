@@ -27,6 +27,10 @@ const goToTrade = () => {
   Actions.productTrade()
 }
 
+const goToMatch = () => {
+    Actions.matches()
+  }
+
 export default class Home extends React.Component {
   
   render() {
@@ -57,7 +61,7 @@ export default class Home extends React.Component {
             </TouchableOpacity>
           ))
         }
-
+    <View style = {styles.buttons}>
         <Button
           color='#CD7F32'
           title='Cadastrar Produto'
@@ -69,6 +73,13 @@ export default class Home extends React.Component {
           title='Editar Perfil'
           onPress = {goToProfileEdit}
         />
+
+        <Button
+          color='#CD7F32'
+          title='Ver Matches'
+          onPress = {goToMatch}
+        />
+        </View>
       </View>
     )
   }
@@ -100,14 +111,21 @@ const styles = StyleSheet.create({
     color: '#4f603c',
     padding: 10
   },
+  buttons: {
+    flex: 1,
+    flexDirection: 'column',
+    justifyContent: 'space-around',
+  },
   product_container: {
     padding: 10,
     marginTop: 3,
     backgroundColor: '#FFFAFA',
     alignItems: 'center',
     flexDirection: 'row',
+    justifyContent: 'space-between',
   },
   product_button: {
+    
     flexDirection: 'row',
     justifyContent: 'flex-end',
   }
