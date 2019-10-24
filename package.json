@@ -12,6 +12,7 @@
     "firebase": "^6.6.1",
     "native-base": "^2.13.5",
     "react": "16.8.6",
+    "react-dom": "^16.10.2",
     "react-native": "0.60.5",
     "react-native-deck-swiper": "^1.6.7",
     "react-native-firebase": "^5.5.6",
@@ -29,13 +30,20 @@
     "@babel/runtime": "^7.5.5",
     "@react-native-community/eslint-config": "^0.0.5",
     "babel-jest": "^24.9.0",
+    "enzyme": "^3.10.0",
+    "enzyme-adapter-react-16": "^1.15.1",
     "eslint": "^6.3.0",
     "jest": "^24.9.0",
+    "json-server": "0.15.1",
     "metro-react-native-babel-preset": "^0.56.0",
-    "react-test-renderer": "16.8.6",
-    "json-server": "0.15.1"
+    "react-test-renderer": "16.8.6"
   },
   "jest": {
-    "preset": "react-native"
+    "preset": "react-native",
+    "setupFilesAfterEnv": [
+      "./__mocks__/mockFirebase",
+      "./__mocks__/mockImagePicker"
+    ],
+    "automock": false
   }
 }
