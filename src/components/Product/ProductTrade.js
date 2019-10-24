@@ -1,9 +1,12 @@
 import React, { Component } from 'react'
 import Swiper from 'react-native-deck-swiper'
+import firebase from 'react-native-firebase';
 import { Image, Button, Alert, StyleSheet, Text, View } from 'react-native'
 import { Actions } from 'react-native-router-flux';
+import { firebaseAuth } from '../../../firebase';
 
 export default class ProductTrade extends Component {
+  likes = firebase.auth().currentUser.likes;
   constructor (props) {
     super(props)
     this.state = {
@@ -11,8 +14,20 @@ export default class ProductTrade extends Component {
       swipedAllCards: false,
       swipeDirection: '',
       cardIndex: 0
+      
     }
   }
+  /**
+   * Decresce o numero de likes do usuario
+   */
+  const decreaselikes = () => {
+    likes = likes -1;
+    if(likes==0){
+    alert.alert('Seus likes acabaram :(', 'Experimente fazer upgrade de plano e troque sem limites');
+    Actions.home();
+    }
+    }
+  
 
   renderCard = (card, index) => {
     return (
@@ -48,8 +63,12 @@ export default class ProductTrade extends Component {
             this.swiper = swiper
           }}
           onSwiped={() => this.onSwiped('general')}
-          onSwipedLeft={() => this.onSwiped('left')}
-          onSwipedRight={() => this.onSwiped('right')}
+          onSwipedLeft={() => {
+            this.onSwiped('left')
+            this.decreaselikes()}}
+          onSwipedRight={() => { 
+            this.onSwiped('right')
+            this.decreaselikes()}}
           onSwipedTop={() => this.onSwiped('top')}
           onSwipedBottom={() => this.onSwiped('bottom')}
           onTapCard={this.swipeLeft}
@@ -139,7 +158,7 @@ export default class ProductTrade extends Component {
       </View>
     )
   }
-}
+
 
 const styles = StyleSheet.create({
   container: {
