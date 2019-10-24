@@ -24,6 +24,7 @@
 		2D02E4BD1E0B4A84006451C7 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		2D02E4BF1E0B4AB3006451C7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		2DCD954D1E0B4F2C00145EB5 /* itradeTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* itradeTests.m */; };
+		4074C3BC91C44E9C9FE2182D /* Fontisto.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D7D126D7AC19474F999718D1 /* Fontisto.ttf */; };
 		42F3B739B78246DD8C7ADA80 /* Roboto.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 70C396F2864740B3AFF0EEB0 /* Roboto.ttf */; };
 		4566DBE7719445EA8E8BF9B8 /* Ionicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9559C50E2C3D49FA9F19CA80 /* Ionicons.ttf */; };
 		7029BF5C78404586BFF15613 /* FontAwesome.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F8A1F9AB513D4FDEA8243CE9 /* FontAwesome.ttf */; };
@@ -101,6 +102,7 @@
 		CC4BCF8CEAD55EF7EA339915 /* libPods-itrade.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-itrade.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		CEC42A7E5738403CB84C6E36 /* FontAwesome5_Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome5_Regular.ttf; path = "../node_modules/native-base/Fonts/FontAwesome5_Regular.ttf"; sourceTree = "<group>"; };
 		D683D66EABD3AB96A79F3283 /* Pods-itradeTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-itradeTests.debug.xcconfig"; path = "Target Support Files/Pods-itradeTests/Pods-itradeTests.debug.xcconfig"; sourceTree = "<group>"; };
+		D7D126D7AC19474F999718D1 /* Fontisto.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Fontisto.ttf; path = "../node_modules/native-base/Fonts/Fontisto.ttf"; sourceTree = "<group>"; };
 		DF02695BA59941D08565836D /* Feather.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Feather.ttf; path = "../node_modules/native-base/Fonts/Feather.ttf"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		ED2971642150620600B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS12.0.sdk/System/Library/Frameworks/JavaScriptCore.framework; sourceTree = DEVELOPER_DIR; };
@@ -196,6 +198,7 @@
 				AD1D2190399B409CB3B0AA18 /* rubicon-icon-font.ttf */,
 				6D9728D652DF4FCBB07CB9B1 /* SimpleLineIcons.ttf */,
 				14A52091F20949F9A3DDA695 /* Zocial.ttf */,
+				D7D126D7AC19474F999718D1 /* Fontisto.ttf */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -422,6 +425,7 @@
 				CEBD62B620E34310BD626C7B /* SimpleLineIcons.ttf in Resources */,
 				7732ED2B7ACA4AAD9646A410 /* Zocial.ttf in Resources */,
 				7244240B232F492300C6EC1C /* GoogleService-Info.plist in Resources */,
+				4074C3BC91C44E9C9FE2182D /* Fontisto.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -884,7 +888,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				ENABLE_TESTABILITY = YES;
+				ENABLE_TESTABILITY = "$(inherited)";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -904,6 +908,7 @@
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = "$(inherited)";
 			};
 			name = Debug;
 		};
@@ -938,6 +943,7 @@
 				COPY_PHASE_STRIP = YES;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = "$(inherited)";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -949,7 +955,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
-				VALIDATE_PRODUCT = YES;
+				VALIDATE_PRODUCT = "$(inherited)";
 			};
 			name = Release;
 		};

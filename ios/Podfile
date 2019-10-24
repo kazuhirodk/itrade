@@ -30,8 +30,9 @@ target 'itrade' do
   pod 'Firebase/Core'
   pod 'Firebase/Auth'
 
+  pod 'RNFirebase', :path => '../node_modules/react-native-firebase/ios'
 
-  pod 'RNFirebase', :path => '../node_modules/react-native-firebase'
+  pod 'react-native-image-picker', :path => '../node_modules/react-native-image-picker'
 
   target 'itradeTests' do
     inherit! :search_paths
