@@ -15,7 +15,6 @@ const goToHome = () => {
   Actions.home()
 }
 
-
 export default class Profile extends Component {
 
   state = {

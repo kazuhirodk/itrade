@@ -17,57 +17,57 @@ const options = {
 }
 
 export default class ProductCreate extends React.Component {
-    key = ''
+  key = ''
 
-    componentDidMount() {
-      firebase.auth().onAuthStateChanged(userLogged => {
-        const list = FirebaseService.getDataList('usuarios', function(){});  
-        list.orderByChild("email").equalTo(userLogged.email).on("child_added", snapshot => {   
-          key = snapshot.key
-        });
-      })
-    }
+  componentDidMount() {
+    firebase.auth().onAuthStateChanged(userLogged => {
+      const list = FirebaseService.getDataList('usuarios', function(){});  
+      list.orderByChild("email").equalTo(userLogged.email).on("child_added", snapshot => {   
+        key = snapshot.key
+      });
+    })
+  }
 
-    onChangeText = (key, val) => {
-      this.setState({[key]: val})
-    }
+  onChangeText = (key, val) => {
+    this.setState({[key]: val})
+  }
+  
+  create = async () => {
+    const imagePath = this.state.foto.path;
+    const ref = firebase.storage().ref('/' + this.state.foto.fileName)
     
-    create = async () => {
-      const imagePath = this.state.foto.path;
-      const ref = firebase.storage().ref('/' + this.state.foto.fileName)
-      
-      ref.getDownloadURL().then((url) => {         
-        this.setState({'foto': url})
-        try{
-          let id = FirebaseService.pushData('usuarios/' + key + '/produtos', this.state)
-          alert('Produto cadastrado com sucesso!')       
-          //limpar tela 
-        }
-        catch(e){
-          alert('Falha ao cadastrar produto.' + e)
-        }
-      })
-      const uploadTask = ref.putFile(imagePath);
-      // .on observer is completely optional (can instead use .then/.catch), but allows you to
-      // do things like a progress bar for example
-      uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED, (snapshot) => {
-        // observe state change events such as progress
-        // get task progress, including the number of bytes uploaded and the total number of    bytes to be uploaded
-        const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-        console.log(`Upload is ${progress}% done`);
+    ref.getDownloadURL().then((url) => {         
+      this.setState({'foto': url})
+      try{
+        let id = FirebaseService.pushData('usuarios/' + key + '/produtos', this.state)
+        alert('Produto cadastrado com sucesso!')       
+        //limpar tela 
+      }
+      catch(e){
+        alert('Falha ao cadastrar produto.' + e)
+      }
+    })
+    const uploadTask = ref.putFile(imagePath);
+    // .on observer is completely optional (can instead use .then/.catch), but allows you to
+    // do things like a progress bar for example
+    uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED, (snapshot) => {
+      // observe state change events such as progress
+      // get task progress, including the number of bytes uploaded and the total number of    bytes to be uploaded
+      const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+      console.log(`Upload is ${progress}% done`);
 
-        switch (snapshot.state) {
-          case firebase.storage.TaskState.SUCCESS: // or 'success'
-            console.log('Upload is complete');
-            break;
-          case firebase.storage.TaskState.RUNNING: // or 'running'
-            console.log('Upload is running');
-            break;
-        }
-      }, (error) => {
-        console.error(error);
-      })
-    } 
+      switch (snapshot.state) {
+        case firebase.storage.TaskState.SUCCESS: // or 'success'
+          console.log('Upload is complete');
+          break;
+        case firebase.storage.TaskState.RUNNING: // or 'running'
+          console.log('Upload is running');
+          break;
+      }
+    }, (error) => {
+      console.error(error);
+    })
+  } 
 
   uploadImg = async () => {
     ImagePicker.showImagePicker(options, response => {
