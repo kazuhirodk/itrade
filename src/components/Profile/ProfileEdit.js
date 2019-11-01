@@ -26,17 +26,19 @@ export default class Profile extends Component {
 
   componentDidMount(){
     firebase.auth().onAuthStateChanged(userLogged => {
-      const list = FirebaseService.getDataList('usuarios', function(){});  
-      list.orderByChild("email").equalTo(userLogged.email).on("child_added", snapshot => {   
+      const list = FirebaseService.getDataList('usuarios', function(){});
+
+      list.orderByChild("email").equalTo(userLogged.email).on("child_added", snapshot => {
         let user = snapshot.val()
         this.setState({
           nome_usuario: user.nome_usuario,
           email: user.email,
           telefone: user.telefone
         })
+
         key = snapshot.key
       });
-    })      
+    })
   }
 
   onChangeText = (key, val) => {
@@ -44,11 +46,11 @@ export default class Profile extends Component {
   }
 
   updateUser = async() => {
-     try {
-       FirebaseService.updateData('usuarios/' + key, this.state);  
-       alert("Atualização realizada com sucesso!")
-     } catch(e){
-       alert("Atualização falhou.")
+    try {
+      FirebaseService.updateData('usuarios/' + key, this.state);
+      alert("Atualização realizada com sucesso!")
+    } catch(e){
+      alert("Atualização falhou.")
     }
   }
 

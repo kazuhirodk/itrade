@@ -21,8 +21,8 @@ export default class ProductCreate extends React.Component {
 
   componentDidMount() {
     firebase.auth().onAuthStateChanged(userLogged => {
-      const list = FirebaseService.getDataList('usuarios', function(){});  
-      list.orderByChild("email").equalTo(userLogged.email).on("child_added", snapshot => {   
+      const list = FirebaseService.getDataList('usuarios', function(){});
+      list.orderByChild("email").equalTo(userLogged.email).on("child_added", snapshot => {
         key = snapshot.key
       });
     })
@@ -31,17 +31,17 @@ export default class ProductCreate extends React.Component {
   onChangeText = (key, val) => {
     this.setState({[key]: val})
   }
-  
+
   create = async () => {
     const imagePath = this.state.foto.path;
     const ref = firebase.storage().ref('/' + this.state.foto.fileName)
-    
-    ref.getDownloadURL().then((url) => {         
+
+    ref.getDownloadURL().then((url) => {
       this.setState({'foto': url})
       try{
         let id = FirebaseService.pushData('usuarios/' + key + '/produtos', this.state)
-        alert('Produto cadastrado com sucesso!')       
-        //limpar tela 
+        alert('Produto cadastrado com sucesso!')
+        //limpar tela
       }
       catch(e){
         alert('Falha ao cadastrar produto.' + e)
@@ -67,7 +67,7 @@ export default class ProductCreate extends React.Component {
     }, (error) => {
       console.error(error);
     })
-  } 
+  }
 
   uploadImg = async () => {
     ImagePicker.showImagePicker(options, response => {
@@ -90,7 +90,7 @@ export default class ProductCreate extends React.Component {
         });
       }
     });
-  }; 
+  };
 
   render() {
     return (

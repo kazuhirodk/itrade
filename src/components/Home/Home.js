@@ -28,11 +28,46 @@ const goToTrade = () => {
 }
 
 const goToMatch = () => {
-    Actions.matches()
-  }
+  Actions.matches()
+}
+
+const getUnique = (arr, comp) => {
+
+  const unique = arr
+    .map(e => e[comp])
+
+  // store the keys of the unique objects
+  .map((e, i, final) => final.indexOf(e) === i && i)
+
+  // eliminate the dead keys & store unique objects
+  .filter(e => arr[e]).map(e => arr[e]);
+
+  return unique;
+}
 
 export default class Home extends React.Component {
-  
+  key = ''
+
+  componentDidMount(){
+    firebase.auth().onAuthStateChanged(userLogged => {
+      const products = FirebaseService.getDataList('produtos', function(){});
+
+      products.orderByChild("owner_email").equalTo(userLogged.email).on("child_added", snapshot => {
+        let product = snapshot.val();
+
+        product_array = state['products']
+        var index = product_array.findIndex( x => x.id==snapshot.key);
+
+        if (index === -1) {
+          product_array.push({id: snapshot.key, name: product.name, sourceImage: require('../../components/images/product1.png')});
+        } else console.log('object already exists')
+
+        this.setState({products: product_array })
+        key = snapshot.key
+      });
+    })
+  }
+
   render() {
     return (
       <View style={styles.container}>
@@ -86,18 +121,7 @@ export default class Home extends React.Component {
 }
 
 const state = {
-  products: [
-    {
-      id: 0,
-      name: 'Product 1',
-      sourceImage: require('../../components/images/product1.png'),
-    },
-    {
-      id: 1,
-      name: 'Product 2',
-      sourceImage: require('../../components/images/product1.png'),
-    }
-  ]
+  products: []
 }
 
 const styles = StyleSheet.create({
@@ -125,7 +149,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   product_button: {
-    
+
     flexDirection: 'row',
     justifyContent: 'flex-end',
   }
