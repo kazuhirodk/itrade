@@ -1,23 +1,52 @@
 import React, { Component } from 'react'
 import Swiper from 'react-native-deck-swiper'
 import { Image, Button, StyleSheet, Text, View } from 'react-native'
+import FirebaseService from '../../../services/FirebaseService';
+import firebase from 'react-native-firebase';
 
 export default class ProductTrade extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      cards: ['produto 1', 'produto 2'],
+      cards: [{name: 'Arraste o card para iniciar'}],
       swipedAllCards: false,
       swipeDirection: '',
-      cardIndex: 0
+      cardIndex: 0,
+      products: [],
     }
+  }
+
+  key = ''
+
+  componentDidMount(){
+    firebase.auth().onAuthStateChanged(userLogged => {
+      const list = FirebaseService.getDataList('usuarios', function(){});
+
+      list.orderByChild("email").equalTo(userLogged.email).on("child_added", snapshot => {
+        let user = snapshot.val()
+
+        var productArray = this.state['cards'];
+        var produtos = user.produtos;
+        var keys = Object.keys(produtos);
+
+        keys.forEach(function(key){
+          productArray.push({id: key, name: produtos[key].nome, sourceImage: produtos[key].foto});
+        });
+
+        this.setState({
+          cards: productArray
+        })
+
+        key = snapshot.key
+      });
+    })
   }
 
   renderCard = (card, index) => {
     return (
       <View style={styles.card}>
-        <Image style={{width: 150, height: 150}} source={require('../../components/images/product1.png')}/>
-        <Text style={styles.text}>{card}</Text>
+        <Image style={{width: 150, height: 150}} source={{uri: card.sourceImage}}/>
+        <Text style={styles.text}>{card.name}</Text>
       </View>
     )
   };
@@ -58,7 +87,7 @@ export default class ProductTrade extends Component {
           stackSeparation={15}
           overlayLabels={{
             bottom: {
-              title: 'BLEAH',
+              title: 'PULAR',
               style: {
                 label: {
                   backgroundColor: 'black',
