@@ -1,18 +1,26 @@
 import React, { Component } from 'react'
 import Swiper from 'react-native-deck-swiper'
-import { Image, Button, StyleSheet, Text, View } from 'react-native'
+import { Alert, Image, Button, StyleSheet, Text, View } from 'react-native'
 import FirebaseService from '../../../services/FirebaseService';
 import firebase from 'react-native-firebase';
+import { Actions } from 'react-native-router-flux';
+
+const goToChat = () => {
+  console.log('GO TO CHAT!')
+  Actions.chat()
+}
 
 export default class ProductTrade extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      cards: [{name: 'Arraste o card para iniciar'}],
+      cards: [{id: 'teste', name: 'Clique no card para iniciar'}],
       swipedAllCards: false,
       swipeDirection: '',
       cardIndex: 0,
       allProducts: [],
+      offeredProduct: '',
+      interestedProduct: '',
     }
   }
 
@@ -57,6 +65,38 @@ export default class ProductTrade extends Component {
 
   onSwiped = (type) => {
     console.log(`on swiped ${type}`)
+
+    this.setState({
+      offeredProduct: '-Lp-AfESnxj2hc3XnSj3',
+      interestedProduct: this.state.cards[this.state.cardIndex].id
+    })
+
+    // console.log('INDEX: ' + this.state.cardIndex)
+    // console.log('PRODUCT ID MATCH: ' + this.state.interestedProduct)
+    // console.log('PRODUCT NAME: ' + this.state.cards[this.state.cardIndex].name)
+
+    if(type === 'right'){
+      FirebaseService.pushData('matchs', {produto_interesse: this.state.interestedProduct, produto_oferta: this.state.offeredProduct})
+
+      const matchsWithMe = FirebaseService.getDataList('matchs', function(){});
+
+      matchsWithMe.orderByChild('produto_interesse').equalTo(this.state.offeredProduct).on('child_added', snapshot => {
+        let match = snapshot.val();
+        if(match.produto_oferta == this.state.interestedProduct) {
+          Alert.alert('Você deu match!', 'Clique em OK para continuar',
+            [
+              {text: 'OK', onPress: () => console.log('DEU MATCH!')},
+            ],
+            {cancelable: false},
+          )
+          // goToChat;
+        }
+      })
+    }
+
+    this.setState({
+      cardIndex: this.state.cardIndex + 1
+    })
   }
 
   onSwipedAllCards = () => {
@@ -66,6 +106,15 @@ export default class ProductTrade extends Component {
   };
 
   swipeLeft = () => {
+    this.setState({
+      offeredProduct: '-Lp-AfESnxj2hc3XnSj3',
+      interestedProduct: this.state.cards[this.state.cardIndex].id
+    })
+
+    this.setState({
+      cardIndex: this.state.cardIndex + 1
+    })
+
     this.swiper.swipeLeft()
   };
 
