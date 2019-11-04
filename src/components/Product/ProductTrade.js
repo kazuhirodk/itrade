@@ -25,7 +25,7 @@ export default class ProductTrade extends Component {
       allUsers.orderByChild("email").on("child_added", snapshot => {
         let user = snapshot.val();
 
-        if(typeof user.produtos !== "undefined"){
+        if(typeof user.produtos !== "undefined" && userLogged.email !== user.email){
           var allProductsArray = this.state['cards'];
           var produtos = user.produtos;
           var keys = Object.keys(produtos);
