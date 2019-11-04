@@ -12,7 +12,7 @@ export default class ProductTrade extends Component {
       swipedAllCards: false,
       swipeDirection: '',
       cardIndex: 0,
-      products: [],
+      allProducts: [],
     }
   }
 
@@ -20,25 +20,29 @@ export default class ProductTrade extends Component {
 
   componentDidMount(){
     firebase.auth().onAuthStateChanged(userLogged => {
-      const list = FirebaseService.getDataList('usuarios', function(){});
+      const allUsers = FirebaseService.getDataList('usuarios', function(){});
 
-      list.orderByChild("email").equalTo(userLogged.email).on("child_added", snapshot => {
-        let user = snapshot.val()
+      allUsers.orderByChild("email").on("child_added", snapshot => {
+        let user = snapshot.val();
 
-        var productArray = this.state['cards'];
-        var produtos = user.produtos;
-        var keys = Object.keys(produtos);
+        if(typeof user.produtos !== "undefined"){
+          var allProductsArray = this.state['cards'];
+          var produtos = user.produtos;
+          var keys = Object.keys(produtos);
 
-        keys.forEach(function(key){
-          productArray.push({id: key, name: produtos[key].nome, sourceImage: produtos[key].foto});
-        });
+          keys.forEach(function(key){
+            var index = allProductsArray.findIndex( x => x.id==key);
 
-        this.setState({
-          cards: productArray
-        })
+            if (index === -1) {
+              allProductsArray.push({id: key, name: produtos[key].nome, sourceImage: produtos[key].foto});
+            } else console.log('object already exists')
+          });
 
-        key = snapshot.key
-      });
+          this.setState({
+            cards: allProductsArray
+          })
+        }
+      })
     })
   }
 

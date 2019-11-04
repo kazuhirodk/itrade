@@ -13,7 +13,7 @@ import Chat from '../Chat/Chat'
 const Routes = () => (
   <Router>
     <Stack key="root">
-      <Scene key = "login" component = {Login} title = "Login" initial = {true} />
+      <Scene key = "login" component = {Login} title = "Login" />
       <Scene key = "signup" component = {SignUp} title = "Cadastro" />
       <Scene key = "chat" component = {Chat} title = "Chat" />
       <Scene key = "home" component = {Home} title = "Home" />
@@ -21,7 +21,7 @@ const Routes = () => (
       <Scene key = "profileEdit" component = {ProfileEdit} title = "Editar Perfil" />
       <Scene key = "productCreate" component = {ProductCreate} title = "Cadastrar Produto" />
       <Scene key = "productEdit" component = {ProductEdit} title = "Editar Produto" />
-      <Scene key = "productTrade" component = {ProductTrade} title = "Troca de Produto" />
+      <Scene key = "productTrade" component = {ProductTrade} title = "Troca de Produto" initial = {true} />
     </Stack>
   </Router>
 )
