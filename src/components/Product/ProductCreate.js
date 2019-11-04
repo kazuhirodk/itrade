@@ -17,6 +17,13 @@ const options = {
 }
 
 export default class ProductCreate extends React.Component {
+  state = {
+    name: '',
+    description: '',
+    price: 0,
+    owner_email: ''
+  }
+
   key = ''
 
   componentDidMount() {
@@ -101,14 +108,14 @@ export default class ProductCreate extends React.Component {
           placeholder="Nome do Produto"
           autoCapitalize="none"
           placeholderTextColor="#CD7F32"
-          onChangeText={val => this.onChangeText('nome', val)}
+          onChangeText={val => this.onChangeText('name', val)}
         />
         <TextInput
           style={styles.descript}
           placeholder="Descrição"
           autoCapitalize="none"
           placeholderTextColor="#CD7F32"
-          onChangeText={val => this.onChangeText('descricao', val)}
+          onChangeText={val => this.onChangeText('description', val)}
         />
         <TextInput
           style={styles.input}
@@ -116,7 +123,7 @@ export default class ProductCreate extends React.Component {
           autoCapitalize="none"
           keyboardType="numeric"
           placeholderTextColor="#CD7F32"
-          onChangeText={val => this.onChangeText('preco', val)}
+          onChangeText={val => this.onChangeText('price', val)}
         />
 
         <Button style={styles.button}

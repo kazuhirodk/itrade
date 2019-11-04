@@ -36,19 +36,23 @@ export default class Home extends React.Component {
 
   componentDidMount(){
     firebase.auth().onAuthStateChanged(userLogged => {
-      const products = FirebaseService.getDataList('produtos', function(){});
+      const list = FirebaseService.getDataList('usuarios', function(){});
 
-      products.orderByChild("owner_email").equalTo(userLogged.email).on("child_added", snapshot => {
-        let product = snapshot.val();
+      list.orderByChild("email").equalTo(userLogged.email).on("child_added", snapshot => {
+        let user = snapshot.val()
 
-        product_array = state['products']
-        var index = product_array.findIndex( x => x.id==snapshot.key);
+        var result = state['products'];
+        var produtos = user.produtos;
+        var keys = Object.keys(produtos);
 
-        if (index === -1) {
-          product_array.push({id: snapshot.key, name: product.name, sourceImage: require('../../components/images/product1.png')});
-        } else console.log('object already exists')
+        keys.forEach(function(key){
+          result.push({id: key, name: produtos[key].nome, sourceImage: produtos[key].foto});
+        });
 
-        this.setState({products: product_array })
+        this.setState({
+          products: result
+        })
+
         key = snapshot.key
       });
     })
@@ -63,7 +67,7 @@ export default class Home extends React.Component {
               key = {item.id}
               style = {styles.product_container}
               onPress = {goToProfileEdit}>
-              <Image style={{width: 50, height: 50}} source={item.sourceImage}/>
+              <Image style={{width: 50, height: 50}} source={{uri: item.sourceImage}} />
               <Text style = {styles.text}>
                 {item.name}
               </Text>
