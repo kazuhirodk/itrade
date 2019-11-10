@@ -31,7 +31,7 @@ export default class ProductTrade extends Component {
     this.setState({
       swipedAllCards: true
     })
-    alert.alert('Os produtos na sua região acabaram :(', 'Tente trocar novamente mais tarde');
+    Alert.alert('Os produtos na sua região acabaram :(', 'Tente trocar novamente mais tarde');
     Actions.home();
   };
 
