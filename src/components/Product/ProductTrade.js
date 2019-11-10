@@ -10,6 +10,8 @@ const goToChat = () => {
   Actions.chat()
 }
 
+
+
 export default class ProductTrade extends Component {
   constructor (props) {
     super(props)
@@ -103,6 +105,8 @@ export default class ProductTrade extends Component {
     this.setState({
       swipedAllCards: true
     })
+    Alert.alert('Os produtos na sua região acabaram :(', 'Tente trocar novamente mais tarde');
+    Actions.home();
   };
 
   swipeLeft = () => {
