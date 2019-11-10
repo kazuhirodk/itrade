@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import Swiper from 'react-native-deck-swiper'
-import { Image, Button, StyleSheet, Text, View } from 'react-native'
+import { Image, Button, Alert, StyleSheet, Text, View } from 'react-native'
+import { Actions } from 'react-native-router-flux';
 
 export default class ProductTrade extends Component {
   constructor (props) {
@@ -30,6 +31,8 @@ export default class ProductTrade extends Component {
     this.setState({
       swipedAllCards: true
     })
+    Alert.alert('Os produtos na sua região acabaram :(', 'Tente trocar novamente mais tarde');
+    Actions.home();
   };
 
   swipeLeft = () => {
