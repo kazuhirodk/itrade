@@ -33,7 +33,6 @@ export default class ProductTrade extends Component {
     })
     alert.alert('Os produtos na sua região acabaram :(', 'Tente trocar novamente mais tarde');
     Actions.home();
-    
   };
 
   swipeLeft = () => {
