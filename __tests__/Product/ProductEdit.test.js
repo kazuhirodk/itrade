@@ -8,7 +8,7 @@ import renderer from 'react-test-renderer';
 Enzyme.configure({ adapter: new Adapter() });
 
 describe('#ProductEdit', () => {
-  it('matchs snapshot properly', () => {
+  it('matches snapshot properly', () => {
     const jsonProductEdit = renderer.create(<ProductEdit />).toJSON();
     expect(jsonProductEdit).toMatchSnapshot();
   });

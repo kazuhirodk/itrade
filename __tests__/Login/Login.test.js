@@ -8,7 +8,7 @@ import renderer from 'react-test-renderer';
 Enzyme.configure({ adapter: new Adapter() });
 
 describe('#Login', () => {
-  it('matchs snapshot properly', () => {
+  it('matches snapshot properly', () => {
     const jsonLogin = renderer.create(<Login />).toJSON();
     expect(jsonLogin).toMatchSnapshot();
   });

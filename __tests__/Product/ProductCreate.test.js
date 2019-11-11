@@ -11,7 +11,7 @@ Enzyme.configure({ adapter: new Adapter() });
 const wrapper = shallow(<ProductCreate />);
 
 describe('ProductCreate', () => {
-  it('matchs snapshot properly', () => {
+  it('matches snapshot properly', () => {
     const jsonProductCreate = renderer.create(<ProductCreate />).toJSON();
     expect(jsonProductCreate).toMatchSnapshot();
   });

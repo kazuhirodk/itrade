@@ -1,11 +1,7 @@
 import React from "react";
-
 import ImagePicker from "react-native-image-picker";
-
 import { View, Button, TextInput, StyleSheet, Text } from "react-native";
-
 import firebase from 'react-native-firebase'
-
 import FirebaseService from '../../../services/FirebaseService';
 
 const options = {

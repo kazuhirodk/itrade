@@ -5,11 +5,6 @@ import FirebaseService from '../../../services/FirebaseService';
 import firebase from 'react-native-firebase';
 import { Actions } from 'react-native-router-flux';
 
-const goToChat = () => {
-  console.log('GO TO CHAT!')
-  Actions.chat()
-}
-
 export default class ProductTrade extends Component {
   constructor (props) {
     super(props)
@@ -21,34 +16,64 @@ export default class ProductTrade extends Component {
       allProducts: [],
       offeredProduct: '',
       interestedProduct: '',
+      match: {
+        myProduct: {
+          contato: '',
+          id: '',
+          name: '',
+          ownerName: '',
+          sourceImage: ''
+        },
+        interestProduct: {
+          contato: '',
+          id: '',
+          name: '',
+          ownerName: '',
+          sourceImage: ''
+        }
+      }
     }
   }
 
   key = ''
+  user = ''
 
   componentDidMount(){
     firebase.auth().onAuthStateChanged(userLogged => {
       const allUsers = FirebaseService.getDataList('usuarios', function(){});
 
-      allUsers.orderByChild("email").on("child_added", snapshot => {
-        let user = snapshot.val();
+      allUsers.orderByChild("email").equalTo(userLogged.email).on("child_added", snapshot => {
+        key = snapshot.key;
+        user = snapshot.val();
 
-        if(typeof user.produtos !== "undefined" && userLogged.email !== user.email){
+        myProductInfo = this.state.match.myProduct;
+
+        produto = user.produtos['-Lqayd0OzBYMZE1H3Ota'];
+
+        console.log(this.state)
+      })
+
+      allUsers.orderByChild("email").on("child_added", snapshot => {
+        let generalUser = snapshot.val();
+
+        if(typeof generalUser.produtos !== "undefined" && userLogged.email !== generalUser.email){
           var allProductsArray = this.state['cards'];
-          var produtos = user.produtos;
+          var produtos = generalUser.produtos;
           var keys = Object.keys(produtos);
 
           keys.forEach(function(key){
             var index = allProductsArray.findIndex( x => x.id==key);
 
             if (index === -1) {
-              allProductsArray.push({id: key, name: produtos[key].nome, sourceImage: produtos[key].foto});
+              allProductsArray.push({id: key, name: produtos[key].nome, sourceImage: produtos[key].foto, ownerName: generalUser.nome_usuario, ownerContact: generalUser.telefone});
             } else console.log('object already exists')
           });
 
-          this.setState({
-            cards: allProductsArray
-          })
+          if (this.state.cards == [{id: 'teste', name: 'Clique no card para iniciar'}]){ //gambiarra monstra pra arrumar o indice, depois eu arrumo
+            this.setState({
+              cards: [{id: 'teste', name: 'Clique no card para iniciar'}].concat(allProductsArray)
+            })
+          }
         }
       })
     })
@@ -65,57 +90,71 @@ export default class ProductTrade extends Component {
 
   onSwiped = (type) => {
     console.log(`on swiped ${type}`)
-
-    this.setState({
-      offeredProduct: '-Lp-AfESnxj2hc3XnSj3',
-      interestedProduct: this.state.cards[this.state.cardIndex].id
-    })
-
-    // console.log('INDEX: ' + this.state.cardIndex)
-    // console.log('PRODUCT ID MATCH: ' + this.state.interestedProduct)
-    // console.log('PRODUCT NAME: ' + this.state.cards[this.state.cardIndex].name)
-
-    if(type === 'right'){
-      FirebaseService.pushData('matchs', {produto_interesse: this.state.interestedProduct, produto_oferta: this.state.offeredProduct})
-
-      const matchsWithMe = FirebaseService.getDataList('matchs', function(){});
-
-      matchsWithMe.orderByChild('produto_interesse').equalTo(this.state.offeredProduct).on('child_added', snapshot => {
-        let match = snapshot.val();
-        if(match.produto_oferta == this.state.interestedProduct) {
-          Alert.alert('Você deu match!', 'Clique em OK para continuar',
-            [
-              {text: 'OK', onPress: () => console.log('DEU MATCH!')},
-            ],
-            {cancelable: false},
-          )
-          // goToChat;
-        }
-      })
-    }
-
-    this.setState({
-      cardIndex: this.state.cardIndex + 1
-    })
   }
 
   onSwipedAllCards = () => {
     this.setState({
       swipedAllCards: true
     })
+
+    Alert.alert('Os produtos na sua região acabaram :(', 'Tente trocar novamente mais tarde');
+    Actions.home();
   };
 
-  swipeLeft = () => {
+  swipeLeft = (cardIndex) => {
     this.setState({
-      offeredProduct: '-Lp-AfESnxj2hc3XnSj3',
-      interestedProduct: this.state.cards[this.state.cardIndex].id
-    })
-
-    this.setState({
-      cardIndex: this.state.cardIndex + 1
+      offeredProduct: '-Lqayd0OzBYMZE1H3Ota',
+      interestedProduct: this.state.cards[cardIndex].id,
+      cardIndex: cardIndex
     })
 
     this.swiper.swipeLeft()
+  };
+
+  swipeRight = (cardIndex) => {
+    this.setState({
+      offeredProduct: '-Lqayd0OzBYMZE1H3Ota',
+      interestedProduct: this.state.cards[cardIndex].id,
+      cardIndex: cardIndex
+    })
+
+    FirebaseService.pushData('likes', {produto_interesse: this.state.cards[cardIndex].id, produto_oferta: this.state.offeredProduct})
+
+    const likesOnMe = FirebaseService.getDataList('likes', function(){});
+
+    likesOnMe.orderByChild('produto_interesse').equalTo(this.state.offeredProduct).on('child_added', snapshot => {
+      let match = snapshot.val();
+
+      if(match.produto_oferta == this.state.cards[cardIndex].id) {
+        this.setState({
+          match: {
+            myProduct: {
+              contato: user.telefone,
+              id: '-Lqayd0OzBYMZE1H3Ota',
+              name: produto.nome,
+              ownerName: user.nome_usuario,
+              sourceImage: produto.foto
+            },
+            interestProduct: {
+              contato: this.state.cards[cardIndex].ownerContact,
+              id: match.produto_oferta,
+              name: this.state.cards[cardIndex].name,
+              ownerName: this.state.cards[cardIndex].ownerName,
+              sourceImage: this.state.cards[cardIndex].sourceImage
+            }
+          }
+        })
+
+        FirebaseService.pushData('usuarios/' + key + '/matches', this.state.match);
+
+        Alert.alert('Você deu match!', 'Clique em OK para continuar',
+          [
+            {text: 'OK', onPress: () => console.log('DEU MATCH!')},
+          ],
+          {cancelable: false},
+        )
+      }
+    })
   };
 
   render () {
@@ -125,11 +164,11 @@ export default class ProductTrade extends Component {
           ref={swiper => {
             this.swiper = swiper
           }}
-          onSwiped={() => this.onSwiped('general')}
-          onSwipedLeft={() => this.onSwiped('left')}
-          onSwipedRight={() => this.onSwiped('right')}
-          onSwipedTop={() => this.onSwiped('top')}
-          onSwipedBottom={() => this.onSwiped('bottom')}
+          // onSwiped={() => this.onSwiped('general')}
+          // onSwipedLeft={() => this.onSwiped('left')}
+          onSwipedRight={this.swipeRight}
+          // onSwipedTop={() => this.onSwiped('top')}
+          // onSwipedBottom={() => this.onSwiped('bottom')}
           onTapCard={this.swipeLeft}
           cards={this.state.cards}
           cardIndex={this.state.cardIndex}
@@ -212,7 +251,6 @@ export default class ProductTrade extends Component {
           animateCardOpacity
           swipeBackCard
         >
-          <Button onPress={() => this.swiper.swipeBack()} title='Desfazer ação' />
         </Swiper>
       </View>
     )

@@ -8,7 +8,7 @@ import renderer from 'react-test-renderer';
 Enzyme.configure({ adapter: new Adapter() });
 
 describe('#Home', () => {
-  it('matchs snapshot properly', () => {
+  it('matches snapshot properly', () => {
     const jsonHome = renderer.create(<Home />).toJSON();
     expect(jsonHome).toMatchSnapshot();
   });
