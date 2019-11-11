@@ -14,6 +14,33 @@ const goToChat = () => {
 };
 
 export default class ProductMatches extends React.Component {
+    componentWillMount(){
+        let n = [{
+            id: 0,
+            name: "Product 1",
+            ownwer: "Nome1",
+            contato: "8888-8888",
+            sourceImage: require("../../components/images/product1.png")
+          },
+          {
+            id: 1,
+            name: "Product 2",
+            ownwer: "Nome2",
+            contato: "9999-9999",
+            sourceImage: require("../../components/images/product1.png")
+          },
+          {
+            id: 1,
+            name: "Product 2",
+            ownwer: "Nome2",
+            contato: "9999-9999",
+            sourceImage: require("../../components/images/product1.png")
+          }]
+        
+       
+
+        state.products = n
+    }
   showInfo = contato => {
     alert(contato);
   };
@@ -48,22 +75,7 @@ export default class ProductMatches extends React.Component {
 }
 
 const state = {
-  products: [
-    {
-      id: 0,
-      name: "Product 1",
-      ownwer: "Nome1",
-      contato: "8888-8888",
-      sourceImage: require("../../components/images/product1.png")
-    },
-    {
-      id: 1,
-      name: "Product 2",
-      ownwer: "Nome2",
-      contato: "9999-9999",
-      sourceImage: require("../../components/images/product1.png")
-    }
-  ]
+  products: []
 };
 
 const styles = StyleSheet.create({
