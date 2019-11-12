@@ -14,9 +14,9 @@ const options = {
 
 export default class ProductCreate extends React.Component {
   state = {
-    name: '',
-    description: '',
-    price: 0,
+    nome: '',
+    descricao: '',
+    preco: 0,
     owner_email: ''
   }
 
@@ -36,7 +36,6 @@ export default class ProductCreate extends React.Component {
   }
 
   create = async () => {
-    const imagePath = this.state.foto.path;
     const ref = firebase.storage().ref('/' + this.state.foto.fileName)
 
     ref.getDownloadURL().then((url) => {
@@ -49,26 +48,6 @@ export default class ProductCreate extends React.Component {
       catch(e){
         alert('Falha ao cadastrar produto.' + e)
       }
-    })
-    const uploadTask = ref.putFile(imagePath);
-    // .on observer is completely optional (can instead use .then/.catch), but allows you to
-    // do things like a progress bar for example
-    uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED, (snapshot) => {
-      // observe state change events such as progress
-      // get task progress, including the number of bytes uploaded and the total number of    bytes to be uploaded
-      const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-      console.log(`Upload is ${progress}% done`);
-
-      switch (snapshot.state) {
-        case firebase.storage.TaskState.SUCCESS: // or 'success'
-          console.log('Upload is complete');
-          break;
-        case firebase.storage.TaskState.RUNNING: // or 'running'
-          console.log('Upload is running');
-          break;
-      }
-    }, (error) => {
-      console.error(error);
     })
   }
 
@@ -91,6 +70,30 @@ export default class ProductCreate extends React.Component {
         this.setState({
           foto: source
         });
+
+        const ref = firebase.storage().ref('/' + this.state.foto.fileName)
+        const imagePath = this.state.foto.path;
+        const uploadTask = ref.putFile(imagePath);
+        // .on observer is completely optional (can instead use .then/.catch), but allows you to
+        // do things like a progress bar for example
+        uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED, (snapshot) => {
+          // observe state change events such as progress
+          // get task progress, including the number of bytes uploaded and the total number of    bytes to be uploaded
+          const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          console.log(`Upload is ${progress}% done`);
+    
+          switch (snapshot.state) {
+            case firebase.storage.TaskState.SUCCESS: // or 'success'
+              console.log('Upload is complete');
+              break;
+            case firebase.storage.TaskState.RUNNING: // or 'running'
+              console.log('Upload is running');
+              break;
+          }
+        }, (error) => {
+          console.error(error);
+        })
+
       }
     });
   };
@@ -104,14 +107,14 @@ export default class ProductCreate extends React.Component {
           placeholder="Nome do Produto"
           autoCapitalize="none"
           placeholderTextColor="#CD7F32"
-          onChangeText={val => this.onChangeText('name', val)}
+          onChangeText={val => this.onChangeText('nome', val)}
         />
         <TextInput
           style={styles.descript}
           placeholder="Descrição"
           autoCapitalize="none"
           placeholderTextColor="#CD7F32"
-          onChangeText={val => this.onChangeText('description', val)}
+          onChangeText={val => this.onChangeText('descricao', val)}
         />
         <TextInput
           style={styles.input}
@@ -119,7 +122,7 @@ export default class ProductCreate extends React.Component {
           autoCapitalize="none"
           keyboardType="numeric"
           placeholderTextColor="#CD7F32"
-          onChangeText={val => this.onChangeText('price', val)}
+          onChangeText={val => this.onChangeText('preco', val)}
         />
 
         <Button style={styles.button}
