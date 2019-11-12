@@ -13,10 +13,10 @@ import Chat from '../Chat/Chat'
 const Routes = () => (
   <Router>
     <Stack key="root">
-      <Scene key = "login" component = {Login} title = "Login"  />
+      <Scene key = "login" component = {Login} title = "Login" initial = {true} />
       <Scene key = "signup" component = {SignUp} title = "Cadastro" />
       <Scene key = "chat" component = {Chat} title = "Chat" />
-      <Scene key = "home" component = {Home} title = "Home" initial = {true} />
+      <Scene key = "home" component = {Home} title = "Home" />
       <Scene key = "matches" component = {ProductMatches} title = "Seus Matches" />
       <Scene key = "profileEdit" component = {ProfileEdit} title = "Editar Perfil" />
       <Scene key = "productCreate" component = {ProductCreate} title = "Cadastrar Produto" />

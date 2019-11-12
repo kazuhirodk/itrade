@@ -73,6 +73,13 @@
 		<string>rubicon-icon-font.ttf</string>
 		<string>SimpleLineIcons.ttf</string>
 		<string>Zocial.ttf</string>
+		<string>Fontisto.ttf</string>
 	</array>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>Used to upload products</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Used to upload products</string>
+	<key>NSCameraUsageDescription</key>
+	<string>Camera usage description</string>
 </dict>
 </plist>

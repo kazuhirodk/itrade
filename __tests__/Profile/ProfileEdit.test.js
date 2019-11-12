@@ -11,7 +11,7 @@ Enzyme.configure({ adapter: new Adapter() });
 const wrapper = shallow(<ProfileEdit />);
 
 describe('ProfileEdit', () => {
-  it('matchs snapshot properly', () => {
+  it('matches snapshot properly', () => {
     const jsonProfileEdit = renderer.create(<ProfileEdit />).toJSON();
     expect(jsonProfileEdit).toMatchSnapshot();
   });

@@ -1,11 +1,7 @@
 import React from "react";
-
 import ImagePicker from "react-native-image-picker";
-
 import { View, Button, TextInput, StyleSheet, Text } from "react-native";
-
 import firebase from 'react-native-firebase'
-
 import FirebaseService from '../../../services/FirebaseService';
 
 const options = {
@@ -17,12 +13,19 @@ const options = {
 }
 
 export default class ProductCreate extends React.Component {
+  state = {
+    name: '',
+    description: '',
+    price: 0,
+    owner_email: ''
+  }
+
   key = ''
 
   componentDidMount() {
     firebase.auth().onAuthStateChanged(userLogged => {
-      const list = FirebaseService.getDataList('usuarios', function(){});  
-      list.orderByChild("email").equalTo(userLogged.email).on("child_added", snapshot => {   
+      const list = FirebaseService.getDataList('usuarios', function(){});
+      list.orderByChild("email").equalTo(userLogged.email).on("child_added", snapshot => {
         key = snapshot.key
       });
     })
@@ -31,17 +34,17 @@ export default class ProductCreate extends React.Component {
   onChangeText = (key, val) => {
     this.setState({[key]: val})
   }
-  
+
   create = async () => {
     const imagePath = this.state.foto.path;
     const ref = firebase.storage().ref('/' + this.state.foto.fileName)
-    
-    ref.getDownloadURL().then((url) => {         
+
+    ref.getDownloadURL().then((url) => {
       this.setState({'foto': url})
       try{
         let id = FirebaseService.pushData('usuarios/' + key + '/produtos', this.state)
-        alert('Produto cadastrado com sucesso!')       
-        //limpar tela 
+        alert('Produto cadastrado com sucesso!')
+        //limpar tela
       }
       catch(e){
         alert('Falha ao cadastrar produto.' + e)
@@ -67,7 +70,7 @@ export default class ProductCreate extends React.Component {
     }, (error) => {
       console.error(error);
     })
-  } 
+  }
 
   uploadImg = async () => {
     ImagePicker.showImagePicker(options, response => {
@@ -90,7 +93,7 @@ export default class ProductCreate extends React.Component {
         });
       }
     });
-  }; 
+  };
 
   render() {
     return (
@@ -101,14 +104,14 @@ export default class ProductCreate extends React.Component {
           placeholder="Nome do Produto"
           autoCapitalize="none"
           placeholderTextColor="#CD7F32"
-          onChangeText={val => this.onChangeText('nome', val)}
+          onChangeText={val => this.onChangeText('name', val)}
         />
         <TextInput
           style={styles.descript}
           placeholder="Descrição"
           autoCapitalize="none"
           placeholderTextColor="#CD7F32"
-          onChangeText={val => this.onChangeText('descricao', val)}
+          onChangeText={val => this.onChangeText('description', val)}
         />
         <TextInput
           style={styles.input}
@@ -116,7 +119,7 @@ export default class ProductCreate extends React.Component {
           autoCapitalize="none"
           keyboardType="numeric"
           placeholderTextColor="#CD7F32"
-          onChangeText={val => this.onChangeText('preco', val)}
+          onChangeText={val => this.onChangeText('price', val)}
         />
 
         <Button style={styles.button}

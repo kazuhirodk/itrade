@@ -1,24 +1,89 @@
 import React, { Component } from 'react'
 import Swiper from 'react-native-deck-swiper'
-import { Image, Button, Alert, StyleSheet, Text, View } from 'react-native'
+import { Alert, Image, Button, StyleSheet, Text, View } from 'react-native'
+import FirebaseService from '../../../services/FirebaseService';
+import firebase from 'react-native-firebase';
 import { Actions } from 'react-native-router-flux';
 
 export default class ProductTrade extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      cards: ['produto 1', 'produto 2'],
+      cards: [{id: 'teste', name: 'Clique no card para iniciar'}],
       swipedAllCards: false,
       swipeDirection: '',
-      cardIndex: 0
+      cardIndex: 0,
+      allProducts: [],
+      offeredProduct: '',
+      interestedProduct: '',
+      match: {
+        myProduct: {
+          contato: '',
+          id: '',
+          name: '',
+          ownerName: '',
+          sourceImage: ''
+        },
+        interestProduct: {
+          contato: '',
+          id: '',
+          name: '',
+          ownerName: '',
+          sourceImage: ''
+        }
+      }
     }
+  }
+
+  key = ''
+  user = ''
+
+  componentDidMount(){
+    firebase.auth().onAuthStateChanged(userLogged => {
+      const allUsers = FirebaseService.getDataList('usuarios', function(){});
+
+      allUsers.orderByChild("email").equalTo(userLogged.email).on("child_added", snapshot => {
+        key = snapshot.key;
+        user = snapshot.val();
+
+        myProductInfo = this.state.match.myProduct;
+
+        produto = user.produtos['-Lqayd0OzBYMZE1H3Ota'];
+
+        console.log(this.state)
+      })
+
+      allUsers.orderByChild("email").on("child_added", snapshot => {
+        let generalUser = snapshot.val();
+
+        if(typeof generalUser.produtos !== "undefined" && userLogged.email !== generalUser.email){
+          var allProductsArray = this.state['cards'];
+          var produtos = generalUser.produtos;
+          var keys = Object.keys(produtos);
+
+          keys.forEach(function(key){
+            var index = allProductsArray.findIndex( x => x.id==key);
+
+            if (index === -1) {
+              allProductsArray.push({id: key, name: produtos[key].nome, sourceImage: produtos[key].foto, ownerName: generalUser.nome_usuario, ownerContact: generalUser.telefone});
+            } else console.log('object already exists')
+          });
+
+          if (this.state.cards == [{id: 'teste', name: 'Clique no card para iniciar'}]){ //gambiarra monstra pra arrumar o indice, depois eu arrumo
+            this.setState({
+              cards: [{id: 'teste', name: 'Clique no card para iniciar'}].concat(allProductsArray)
+            })
+          }
+        }
+      })
+    })
   }
 
   renderCard = (card, index) => {
     return (
       <View style={styles.card}>
-        <Image style={{width: 150, height: 150}} source={require('../../components/images/product1.png')}/>
-        <Text style={styles.text}>{card}</Text>
+        <Image style={{width: 150, height: 150}} source={{uri: card.sourceImage}}/>
+        <Text style={styles.text}>{card.name}</Text>
       </View>
     )
   };
@@ -35,8 +100,60 @@ export default class ProductTrade extends Component {
     Actions.home();
   };
 
-  swipeLeft = () => {
+  swipeLeft = (cardIndex) => {
+    this.setState({
+      offeredProduct: '-Lqayd0OzBYMZE1H3Ota',
+      interestedProduct: this.state.cards[cardIndex].id,
+      cardIndex: cardIndex
+    })
+
     this.swiper.swipeLeft()
+  };
+
+  swipeRight = (cardIndex) => {
+    this.setState({
+      offeredProduct: '-Lqayd0OzBYMZE1H3Ota',
+      interestedProduct: this.state.cards[cardIndex].id,
+      cardIndex: cardIndex
+    })
+
+    FirebaseService.pushData('likes', {produto_interesse: this.state.cards[cardIndex].id, produto_oferta: this.state.offeredProduct})
+
+    const likesOnMe = FirebaseService.getDataList('likes', function(){});
+
+    likesOnMe.orderByChild('produto_interesse').equalTo(this.state.offeredProduct).on('child_added', snapshot => {
+      let match = snapshot.val();
+
+      if(match.produto_oferta == this.state.cards[cardIndex].id) {
+        this.setState({
+          match: {
+            myProduct: {
+              contato: user.telefone,
+              id: '-Lqayd0OzBYMZE1H3Ota',
+              name: produto.nome,
+              ownerName: user.nome_usuario,
+              sourceImage: produto.foto
+            },
+            interestProduct: {
+              contato: this.state.cards[cardIndex].ownerContact,
+              id: match.produto_oferta,
+              name: this.state.cards[cardIndex].name,
+              ownerName: this.state.cards[cardIndex].ownerName,
+              sourceImage: this.state.cards[cardIndex].sourceImage
+            }
+          }
+        })
+
+        FirebaseService.pushData('usuarios/' + key + '/matches', this.state.match);
+
+        Alert.alert('Você deu match!', 'Clique em OK para continuar',
+          [
+            {text: 'OK', onPress: () => console.log('DEU MATCH!')},
+          ],
+          {cancelable: false},
+        )
+      }
+    })
   };
 
   render () {
@@ -46,11 +163,11 @@ export default class ProductTrade extends Component {
           ref={swiper => {
             this.swiper = swiper
           }}
-          onSwiped={() => this.onSwiped('general')}
-          onSwipedLeft={() => this.onSwiped('left')}
-          onSwipedRight={() => this.onSwiped('right')}
-          onSwipedTop={() => this.onSwiped('top')}
-          onSwipedBottom={() => this.onSwiped('bottom')}
+          // onSwiped={() => this.onSwiped('general')}
+          // onSwipedLeft={() => this.onSwiped('left')}
+          onSwipedRight={this.swipeRight}
+          // onSwipedTop={() => this.onSwiped('top')}
+          // onSwipedBottom={() => this.onSwiped('bottom')}
           onTapCard={this.swipeLeft}
           cards={this.state.cards}
           cardIndex={this.state.cardIndex}
@@ -61,7 +178,7 @@ export default class ProductTrade extends Component {
           stackSeparation={15}
           overlayLabels={{
             bottom: {
-              title: 'BLEAH',
+              title: 'PULAR',
               style: {
                 label: {
                   backgroundColor: 'black',
@@ -133,7 +250,6 @@ export default class ProductTrade extends Component {
           animateCardOpacity
           swipeBackCard
         >
-          <Button onPress={() => this.swiper.swipeBack()} title='Desfazer ação' />
         </Swiper>
       </View>
     )

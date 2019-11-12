@@ -28,11 +28,36 @@ const goToTrade = () => {
 }
 
 const goToMatch = () => {
-    Actions.matches()
-  }
+  Actions.matches()
+}
 
 export default class Home extends React.Component {
-  
+  key = ''
+
+  componentDidMount(){
+    firebase.auth().onAuthStateChanged(userLogged => {
+      const list = FirebaseService.getDataList('usuarios', function(){});
+
+      list.orderByChild("email").equalTo(userLogged.email).on("child_added", snapshot => {
+        let user = snapshot.val()
+
+        var result = state['products'];
+        var produtos = user.produtos;
+        var keys = Object.keys(produtos);
+
+        keys.forEach(function(key){
+          result.push({id: key, name: produtos[key].nome, sourceImage: produtos[key].foto});
+        });
+
+        this.setState({
+          products: result
+        })
+
+        key = snapshot.key
+      });
+    })
+  }
+
   render() {
     return (
       <View style={styles.container}>
@@ -42,7 +67,7 @@ export default class Home extends React.Component {
               key = {item.id}
               style = {styles.product_container}
               onPress = {goToProfileEdit}>
-              <Image style={{width: 50, height: 50}} source={item.sourceImage}/>
+              <Image style={{width: 50, height: 50}} source={{uri: item.sourceImage}} />
               <Text style = {styles.text}>
                 {item.name}
               </Text>
@@ -86,18 +111,7 @@ export default class Home extends React.Component {
 }
 
 const state = {
-  products: [
-    {
-      id: 0,
-      name: 'Product 1',
-      sourceImage: require('../../components/images/product1.png'),
-    },
-    {
-      id: 1,
-      name: 'Product 2',
-      sourceImage: require('../../components/images/product1.png'),
-    }
-  ]
+  products: []
 }
 
 const styles = StyleSheet.create({
@@ -125,7 +139,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   product_button: {
-    
+
     flexDirection: 'row',
     justifyContent: 'flex-end',
   }
