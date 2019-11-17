@@ -64,3 +64,4 @@ ios/build
 ios/Pods
 android/build
 GoogleService-Info.plist
+package-lock.json

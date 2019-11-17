@@ -32,8 +32,21 @@ const goToMatch = () => {
 }
 
 export default class Home extends React.Component {
+  state = {
+    products: [],
+    showEdit: false
+  }
+  toggleEdit()
+    {
+      this.setState({
+        showEdit:!this.state.showEdit
+      })
+    }
   key = ''
-
+  
+  onChangeText = (key, val) => {
+    this.setState({ [key]: val })
+  }
   componentDidMount(){
     firebase.auth().onAuthStateChanged(userLogged => {
       const list = FirebaseService.getDataList('usuarios', function(){});
@@ -46,7 +59,7 @@ export default class Home extends React.Component {
         var keys = Object.keys(produtos);
 
         keys.forEach(function(key){
-          result.push({id: key, name: produtos[key].nome, sourceImage: produtos[key].foto});
+          result.push({id: key, name: produtos[key].nome, sourceImage: produtos[key].foto, description: produtos[key].descricao, price: produtos[key].preco });
         });
 
         this.setState({
@@ -57,16 +70,25 @@ export default class Home extends React.Component {
       });
     })
   }
+  updateProduct = async() => {
+    try {
+      FirebaseService.updateData('usuarios/' + key, this.state.products);
+      alert("Edição realizada com sucesso!")
+    } catch(e){
+      alert("Atualização falhou.")
+    }
+  }
 
   render() {
     return (
       <View style={styles.container}>
         {
+          
           state.products.map((item, index) => (
             <TouchableOpacity
               key = {item.id}
               style = {styles.product_container}
-              onPress = {goToProfileEdit}>
+              onPress = {this.toggleEdit}>
               <Image style={{width: 50, height: 50}} source={{uri: item.sourceImage}} />
               <Text style = {styles.text}>
                 {item.name}
@@ -75,8 +97,47 @@ export default class Home extends React.Component {
                 style={styles.product_button}
                 color='#CD7F32'
                 title='Editar'
-                onPress = {goToProductEdit}
+                onPress = {this.toggleEdit}
               />
+
+              {
+              this.state.showEdit?
+              <div>
+              <TextInput
+          style={styles.input}
+          placeholder='Nome'
+          autoCapitalize="none"
+          placeholderTextColor='#CD7F32'
+          onChangeText={val => this.setState(products[key].name, val)}
+          value={item.name}
+        />
+        <TextInput
+          style={styles.input}
+          placeholder='Preço'
+          autoCapitalize="none"
+          placeholderTextColor='#CD7F32'
+          onChangeText={val => this.setState(products[key].price, val)}
+          value={item.price}
+        />
+        <TextInput
+          style={styles.input}
+          placeholder='Telefone'
+          autoCapitalize="none"
+          placeholderTextColor='#CD7F32'
+          onChangeText={val => this.setState(products[key].description, val)}
+          value={item.description}
+        />
+        <Button
+          color='#239033'
+          title='Salvar edição'
+          onPress={this.updateProduct}
+          />
+          </div>
+          : null
+          }
+          
+        }
+
               <Button
                 style={styles.product_button}
                 color='#4f603c'
@@ -85,7 +146,7 @@ export default class Home extends React.Component {
               />
             </TouchableOpacity>
           ))
-        }
+        
     <View style = {styles.buttons}>
         <Button
           color='#CD7F32'
@@ -110,9 +171,8 @@ export default class Home extends React.Component {
   }
 }
 
-const state = {
-  products: []
-}
+
+
 
 const styles = StyleSheet.create({
   container: {
