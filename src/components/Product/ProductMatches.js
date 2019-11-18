@@ -8,6 +8,8 @@ import {
   Image
 } from "react-native";
 import { Actions } from "react-native-router-flux";
+import FirebaseService from '../../../services/FirebaseService';
+import firebase from 'react-native-firebase';
 
 const goToChat = () => {
   Actions.chat();
@@ -15,8 +17,41 @@ const goToChat = () => {
 
 export default class ProductMatches extends React.Component {
   showInfo = contato => {
-    alert(contato);
+    alert('Tel: ' + contato);
   };
+
+  componentDidMount(){
+    state['products'] = [];
+
+    firebase.auth().onAuthStateChanged(userLogged => {
+      const list = FirebaseService.getDataList('usuarios', function(){});
+
+      list.orderByChild("email").equalTo(userLogged.email).on("child_added", snapshot => {
+        let user = snapshot.val()
+
+        var result = state['products'];
+        var matches = user.matches;
+        var keys = Object.keys(matches);
+
+        keys.forEach(function(key){
+          if (typeof matches[key].interestProduct !== "undefined" && matches[key].interestProduct.name !== "") {
+            var index = result.findIndex( x => x.name==matches[key].interestProduct.name);
+
+            if (index === -1) {
+              result.push({id: key, name: matches[key].interestProduct.name, sourceImage: matches[key].interestProduct.sourceImage, contato:matches[key].interestProduct.contato});
+            } else console.log('object already exists')
+          }
+        });
+
+        this.setState({
+          products: result
+        })
+
+        key = snapshot.key
+      });
+    })
+  }
+
   render() {
     return (
       <View style={styles.container}>
@@ -24,7 +59,7 @@ export default class ProductMatches extends React.Component {
           <View key={item.id} style={styles.product_container}>
             <Image
               style={{ width: 50, height: 50 }}
-              source={item.sourceImage}
+              source={{uri: item.sourceImage}}
             />
             <Text style={styles.text}>{item.name}</Text>
 
@@ -48,22 +83,7 @@ export default class ProductMatches extends React.Component {
 }
 
 const state = {
-  products: [
-    {
-      id: 0,
-      name: "Product 1",
-      ownwer: "Nome1",
-      contato: "8888-8888",
-      sourceImage: require("../../components/images/product1.png")
-    },
-    {
-      id: 1,
-      name: "Product 2",
-      ownwer: "Nome2",
-      contato: "9999-9999",
-      sourceImage: require("../../components/images/product1.png")
-    }
-  ]
+  products: []
 };
 
 const styles = StyleSheet.create({
