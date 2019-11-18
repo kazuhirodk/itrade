@@ -14,7 +14,7 @@ export default class ProductTrade extends Component {
       swipeDirection: '',
       cardIndex: 0,
       allProducts: [],
-      offeredProduct: '',
+      offeredProduct: this.props.offeredProductId,
       interestedProduct: '',
       match: {
         myProduct: {
@@ -48,7 +48,7 @@ export default class ProductTrade extends Component {
 
         myProductInfo = this.state.match.myProduct;
 
-        produto = user.produtos['-Lqayd0OzBYMZE1H3Ota'];
+        produto = user.produtos[this.state.offeredProduct];
 
         console.log(this.state)
       })
@@ -102,7 +102,7 @@ export default class ProductTrade extends Component {
 
   swipeLeft = (cardIndex) => {
     this.setState({
-      offeredProduct: '-Lqayd0OzBYMZE1H3Ota',
+      offeredProduct: this.state.offeredProduct,
       interestedProduct: this.state.cards[cardIndex].id,
       cardIndex: cardIndex
     })
@@ -112,7 +112,7 @@ export default class ProductTrade extends Component {
 
   swipeRight = (cardIndex) => {
     this.setState({
-      offeredProduct: '-Lqayd0OzBYMZE1H3Ota',
+      offeredProduct: this.state.offeredProduct,
       interestedProduct: this.state.cards[cardIndex].id,
       cardIndex: cardIndex
     })
@@ -129,7 +129,7 @@ export default class ProductTrade extends Component {
           match: {
             myProduct: {
               contato: user.telefone,
-              id: '-Lqayd0OzBYMZE1H3Ota',
+              id: this.state.offeredProduct,
               name: produto.nome,
               ownerName: user.nome_usuario,
               sourceImage: produto.foto
@@ -144,6 +144,7 @@ export default class ProductTrade extends Component {
           }
         })
 
+        console.log('DADOS MATCH: ' + this.state.cards[cardIndex].ownerName);
         FirebaseService.pushData('usuarios/' + key + '/matches', this.state.match);
 
         Alert.alert('Você deu match!', 'Clique em OK para continuar',
