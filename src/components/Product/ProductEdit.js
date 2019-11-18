@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { Actions } from 'react-native-router-flux';
+import firebase from 'react-native-firebase'
+import FirebaseService from '../../../services/FirebaseService';
 import {
   StyleSheet,
   Text,
@@ -13,39 +15,92 @@ const goToHome = () => {
   Actions.home()
 }
 
+key = '';
+user = '';
+
 export default class ProductEdit extends Component {
+  constructor (props) {
+    super(props)
+    this.productId = this.props.productEditId;
+    this.state = {
+      nome: '',
+      preco: '',
+      descricao: '',
+      foto: 'imageUrl'
+    }
+  }
+
+  componentDidMount() {
+    firebase.auth().onAuthStateChanged(userLogged => {
+      const list = FirebaseService.getDataList('usuarios', function(){});
+
+      list.orderByChild("email").equalTo(userLogged.email).on("child_added", snapshot => {
+        key = snapshot.key;
+        user = snapshot.val();
+        product = user.produtos[this.productId];
+
+        this.setState({
+          nome: product.nome,
+          preco: product.preco,
+          descricao: product.descricao,
+          foto: product.foto
+        })
+      });
+    })
+  }
+
+  onChangeText = (key, val) => {
+    this.setState({ [key]: val })
+  }
+
+  updateProduct = async() => {
+    try {
+      FirebaseService.updateData('usuarios/' + key + '/produtos/' + this.productId, this.state);
+      alert("Atualização realizada com sucesso!")
+    } catch(e){
+      alert("Atualização falhou.")
+    }
+    goToHome();
+  }
+
   render() {
     return (
       <View style={styles.container}>
         <View style={styles.header}></View>
-        <Image style={styles.avatar} source={require('../../components/images/product1.png')}/>
+        <Image style={styles.avatar} source={{uri: this.state.foto}}/>
         <View style={styles.body}>
-          <Text style={styles.name}>Product Name</Text>
-          <Text style={styles.info}>Preço médio: R$ 97,00</Text>
-          <Text style={styles.description}>Lorem ipsum dolor sit amet, saepe sapientem eu nam. Qui ne assum electram expetendis, omittam deseruisse consequuntur ius an</Text>
+          <Text style={styles.name}>{this.state.nome}</Text>
+          <Text style={styles.info}>Preço médio: R$ {this.state.preco}</Text>
+          <Text style={styles.description}>{this.state.descricao}</Text>
         </View>
         <TextInput
           style={styles.input}
           placeholder='Nome'
           autoCapitalize="none"
           placeholderTextColor='#CD7F32'
+          onChangeText={val => this.onChangeText('nome', val)}
+          value={this.state.nome}
         />
         <TextInput
           style={styles.input}
           placeholder='Preço'
           autoCapitalize="none"
           placeholderTextColor='#CD7F32'
+          onChangeText={val => this.onChangeText('preco', val)}
+          value={this.state.preco.toString()}
         />
         <TextInput
           style={styles.input}
           placeholder='Nova Descrição'
           autoCapitalize="none"
           placeholderTextColor='#CD7F32'
+          onChangeText={val => this.onChangeText('descricao', val)}
+          value={this.state.descricao}
         />
         <Button
           color='#239033'
           title='Salvar'
-          onPress={goToHome}
+          onPress={this.updateProduct}
         />
       </View>
     );

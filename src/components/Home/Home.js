@@ -19,8 +19,8 @@ const goToProductCreate = () => {
   Actions.productCreate()
 }
 
-const goToProductEdit = () => {
-  Actions.productEdit()
+const goToProductEdit = (productId) => {
+  Actions.productEdit({ productEditId: productId })
 }
 
 const goToTrade = (productId) => {
@@ -35,6 +35,8 @@ export default class Home extends React.Component {
   key = ''
 
   componentDidMount(){
+    state['products'] = [];
+
     firebase.auth().onAuthStateChanged(userLogged => {
       const list = FirebaseService.getDataList('usuarios', function(){});
 
@@ -75,7 +77,7 @@ export default class Home extends React.Component {
                 style={styles.product_button}
                 color='#CD7F32'
                 title='Editar'
-                onPress = {goToProductEdit}
+                onPress = {() => goToProductEdit(item.id)}
               />
               <Button
                 style={styles.product_button}
