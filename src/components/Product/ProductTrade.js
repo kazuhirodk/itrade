@@ -102,6 +102,7 @@ export default class ProductTrade extends Component {
 
   swipeLeft = (cardIndex) => {
     this.setState({
+      offeredProduct: this.state.offeredProduct,
       interestedProduct: this.state.cards[cardIndex].id,
       cardIndex: cardIndex
     })
@@ -111,6 +112,7 @@ export default class ProductTrade extends Component {
 
   swipeRight = (cardIndex) => {
     this.setState({
+      offeredProduct: this.state.offeredProduct,
       interestedProduct: this.state.cards[cardIndex].id,
       cardIndex: cardIndex
     })
