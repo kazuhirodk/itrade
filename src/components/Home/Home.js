@@ -23,8 +23,8 @@ const goToProductEdit = () => {
   Actions.productEdit()
 }
 
-const goToTrade = () => {
-  Actions.productTrade()
+const goToTrade = (productId) => {
+  Actions.productTrade({ offeredProductId: productId })
 }
 
 const goToMatch = () => {
@@ -81,12 +81,12 @@ export default class Home extends React.Component {
                 style={styles.product_button}
                 color='#4f603c'
                 title='Trocar'
-                onPress = {goToTrade}
+                onPress = {() => goToTrade(item.id)}
               />
             </TouchableOpacity>
           ))
         }
-    <View style = {styles.buttons}>
+      <View style = {styles.buttons}>
         <Button
           color='#CD7F32'
           title='Cadastrar Produto'
