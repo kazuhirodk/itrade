@@ -10,6 +10,7 @@ import {
 import { Actions } from "react-native-router-flux";
 import FirebaseService from '../../../services/FirebaseService';
 import firebase from 'react-native-firebase';
+import DialogInput from 'react-native-dialog-input';
 
 const goToChat = () => {
   Actions.chat();
@@ -19,9 +20,17 @@ export default class ProductMatches extends React.Component {
   showInfo = contato => {
     alert('Tel: ' + contato);
   };
-
+state = {
+  isDialogVisible = false
+}
+showDialog = (show) => {
+  this.setState(
+    isDialogVisible = show
+  )
+}
   componentDidMount(){
     state['products'] = [];
+    
 
     firebase.auth().onAuthStateChanged(userLogged => {
       const list = FirebaseService.getDataList('usuarios', function(){});
@@ -38,7 +47,7 @@ export default class ProductMatches extends React.Component {
             var index = result.findIndex( x => x.name==matches[key].interestProduct.name);
 
             if (index === -1) {
-              result.push({id: key, name: matches[key].interestProduct.name, sourceImage: matches[key].interestProduct.sourceImage, contato:matches[key].interestProduct.contato});
+              result.push({id: key, name: matches[key].interestProduct.name, sourceImage: matches[key].interestProduct.sourceImage, contato:matches[key].interestProduct.contato, proprietario:matches[key].interestProduct.ownerName});
             } else console.log('object already exists')
           }
         });
@@ -75,6 +84,18 @@ export default class ProductMatches extends React.Component {
               title="Contato"
               onPress={() => this.showInfo(item.contato)}
             />
+            <Button
+              style={styles.product_button2}
+              color="#4f603c"
+              title="Avaliar Usuário"
+              onPress={() => this.showDialog(true)}
+            />
+            <DialogInput isDialogVisible={this.state.isDialogVisible}
+            title={"Avalie" + item.ownerName}
+            message={"De 1 a 5, como você avalia sua experiência de troca com" + item.ownerName}
+            submitInput={ (inputText) => {this.sendInput(inputText)} }
+            closeDialog={ () => {this.showDialog(false)}}>
+            </DialogInput>
           </View>
         ))}
       </View>
