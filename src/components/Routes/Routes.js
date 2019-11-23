@@ -8,6 +8,7 @@ import ProductCreate from '../Product/ProductCreate';
 import ProductEdit from '../Product/ProductEdit';
 import ProductTrade from '../Product/ProductTrade';
 import ProductMatches from '../Product/ProductMatches';
+import ProductMatchesCount from '../Product/ProductMatchesCount.js';
 import Chat from '../Chat/Chat'
 
 const Routes = () => (
@@ -17,11 +18,12 @@ const Routes = () => (
       <Scene key = "signup" component = {SignUp} title = "Cadastro" />
       <Scene key = "chat" component = {Chat} title = "Chat" />
       <Scene key = "home" component = {Home} title = "Home" />
-      <Scene key = "matches" component = {ProductMatches} title = "Seus Matches" />
+      <Scene key = "matches" component = {ProductMatches} title = "Matches por Produto" />
       <Scene key = "profileEdit" component = {ProfileEdit} title = "Editar Perfil" />
       <Scene key = "productCreate" component = {ProductCreate} title = "Cadastrar Produto" />
       <Scene key = "productEdit" component = {ProductEdit} title = "Editar Produto" />
       <Scene key = "productTrade" component = {ProductTrade} title = "Troca de Produto" />
+      <Scene key = "matchesCount" component = {ProductMatchesCount} title = "Seus Matches" />
     </Stack>
   </Router>
 )

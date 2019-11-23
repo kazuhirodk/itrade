@@ -70,15 +70,4 @@ export default class FirebaseService {
     })
   }
 
-  static getCurrentUser = async() =>  {
-    let user = await firebase.auth().onAuthStateChanged(userLogged => {
-      const list = this.getDataList('usuarios', function(){});
-      list.orderByChild("email").equalTo(userLogged.email).on("child_added", snapshot => {
-        // alert(snapshot.val().nome_usuario)
-        return snapshot.val()
-      });
-    })
-    // alert(user.email)
-    //return user
-  };
 }

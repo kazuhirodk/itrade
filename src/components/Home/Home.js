@@ -27,18 +27,18 @@ const goToTrade = (productId) => {
   Actions.productTrade({ offeredProductId: productId })
 }
 
-const goToMatch = () => {
-  Actions.matches()
+const goToMatch = (key) => {
+  Actions.matchesCount({ email: key })
 }
 
 export default class Home extends React.Component {
   key = ''
 
-  componentDidMount(){
+  componentDidMount() {
     state['products'] = [];
 
     firebase.auth().onAuthStateChanged(userLogged => {
-      const list = FirebaseService.getDataList('usuarios', function(){});
+      const list = FirebaseService.getDataList('usuarios', function () { });
 
       list.orderByChild("email").equalTo(userLogged.email).on("child_added", snapshot => {
         let user = snapshot.val()
@@ -47,15 +47,15 @@ export default class Home extends React.Component {
         var produtos = user.produtos;
         var keys = Object.keys(produtos);
 
-        keys.forEach(function(key){
-          result.push({id: key, name: produtos[key].nome, sourceImage: produtos[key].foto});
+        keys.forEach(function (key) {
+          result.push({ id: key, name: produtos[key].nome, sourceImage: produtos[key].foto });
         });
 
         this.setState({
           products: result
         })
 
-        key = snapshot.key
+        key = user.email
       });
     })
   }
@@ -66,46 +66,46 @@ export default class Home extends React.Component {
         {
           state.products.map((item, index) => (
             <TouchableOpacity
-              key = {item.id}
-              style = {styles.product_container}
-              onPress = {goToProfileEdit}>
-              <Image style={{width: 50, height: 50}} source={{uri: item.sourceImage}} />
-              <Text style = {styles.text}>
+              key={item.id}
+              style={styles.product_container}
+              onPress={goToProfileEdit}>
+              <Image style={{ width: 50, height: 50 }} source={{ uri: item.sourceImage }} />
+              <Text style={styles.text}>
                 {item.name}
               </Text>
               <Button
                 style={styles.product_button}
                 color='#CD7F32'
                 title='Editar'
-                onPress = {() => goToProductEdit(item.id)}
+                onPress={() => goToProductEdit(item.id)}
               />
               <Button
                 style={styles.product_button}
                 color='#4f603c'
                 title='Trocar'
-                onPress = {() => goToTrade(item.id)}
+                onPress={() => goToTrade(item.id)}
               />
             </TouchableOpacity>
           ))
         }
-      <View style = {styles.buttons}>
-        <Button
-          color='#CD7F32'
-          title='Cadastrar Produto'
-          onPress = {goToProductCreate}
-        />
+        <View style={styles.buttons}>
+          <Button
+            color='#CD7F32'
+            title='Cadastrar Produto'
+            onPress={goToProductCreate}
+          />
 
-        <Button
-          color='#FD6D64'
-          title='Editar Perfil'
-          onPress = {goToProfileEdit}
-        />
+          <Button
+            color='#FD6D64'
+            title='Editar Perfil'
+            onPress={goToProfileEdit}
+          />
 
-        <Button
-          color='#CD7F32'
-          title='Ver Matches'
-          onPress = {goToMatch}
-        />
+          <Button
+            color='#CD7F32'
+            title='Ver Matches'
+            onPress={() => goToMatch(key)}
+          />
         </View>
       </View>
     )
