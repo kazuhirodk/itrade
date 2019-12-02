@@ -11,11 +11,10 @@ import { Actions } from "react-native-router-flux";
 import FirebaseService from '../../../services/FirebaseService';
 import firebase from 'react-native-firebase';
 import DialogInput from 'react-native-dialog-input';
-import Dialog from 'react-native-dialog-input';
 
 const state = {
   products: [],
-  isDialogVisible : false,
+  isVisible : false,
 };
 
 const goToChat = () => {
@@ -29,7 +28,7 @@ export default class ProductMatches extends React.Component {
   
   showDialog = (show) => {
     console.log(show)
-    this.setState({dialogVisible: show });
+    this.setState({isVisible: show });
   };
 
   sendInput = (inputText) => {
@@ -104,14 +103,13 @@ export default class ProductMatches extends React.Component {
               style={styles.product_button3}
               color="#4f603c"
               title="Avaliar Usuário"
-              onPress={() => this.showDialog(true)}
+              onPress={()=>this.setState({isVisible:true})}
             />
 
-            <DialogInput isDialogVisible={this.state.isDialogVisible}
+            <DialogInput isDialogVisible = {this.state.isVisible}
             title={"Avalie" + item.ownerName}
             message={"De 1 a 5, como você avalia sua experiência de troca com" + item.ownerName}
-            submitInput={(inputText) => {this.sendInput(inputText)}
-              }
+            submitInput={(inputText) => {this.sendInput(inputText)}}
             closeDialog={ () => {this.showDialog(false)}}
             />
           </View>
