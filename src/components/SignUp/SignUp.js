@@ -15,7 +15,7 @@ import { Actions } from 'react-native-router-flux';
 export default class SignUp extends React.Component {
   /*conforme conversamos, os produtos vao ser salvos dentro de uma lisa dentro do usuario*/
   state = {
-    nome_usuario: '', senha: '', email: '', telefone: '', plano: '', likes: '', produtos: []
+    nome_usuario: '', senha: '', email: '', telefone: '', plano: '', likes: '', produtos: [], avaliacao: 0
   }
   onChangeText = (key, val) => {
     this.setState({ [key]: val })

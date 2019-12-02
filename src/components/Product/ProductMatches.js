@@ -11,6 +11,12 @@ import { Actions } from "react-native-router-flux";
 import FirebaseService from '../../../services/FirebaseService';
 import firebase from 'react-native-firebase';
 import DialogInput from 'react-native-dialog-input';
+import Dialog from 'react-native-dialog-input';
+
+const state = {
+  products: [],
+  isDialogVisible : false,
+};
 
 const goToChat = () => {
   Actions.chat();
@@ -20,14 +26,24 @@ export default class ProductMatches extends React.Component {
   showInfo = contato => {
     alert('Tel: ' + contato);
   };
-state = {
-  isDialogVisible = false
-}
-showDialog = (show) => {
-  this.setState(
-    isDialogVisible = show
-  )
-}
+  
+  showDialog = (show) => {
+    console.log(show)
+    this.setState({dialogVisible: show });
+  };
+
+  sendInput = (inputText) => {
+    firebase.auth().onAuthStateChanged(userLogged => {
+      const list = FirebaseService.getDataList('usuarios', function(){});
+
+      list.orderByChild("email").equalTo(userLogged.email).on("child_added", snapshot => {
+        let user = snapshot.val()
+        let key = snapshot.key
+        FirebaseService.pushData('usuarios/'+key + '/avaliacao', inputText)
+      });
+    })
+  };
+
   componentDidMount(){
     state['products'] = [];
     
@@ -85,27 +101,25 @@ showDialog = (show) => {
               onPress={() => this.showInfo(item.contato)}
             />
             <Button
-              style={styles.product_button2}
+              style={styles.product_button3}
               color="#4f603c"
               title="Avaliar Usuário"
               onPress={() => this.showDialog(true)}
             />
+
             <DialogInput isDialogVisible={this.state.isDialogVisible}
             title={"Avalie" + item.ownerName}
             message={"De 1 a 5, como você avalia sua experiência de troca com" + item.ownerName}
-            submitInput={ (inputText) => {this.sendInput(inputText)} }
-            closeDialog={ () => {this.showDialog(false)}}>
-            </DialogInput>
+            submitInput={(inputText) => {this.sendInput(inputText)}
+              }
+            closeDialog={ () => {this.showDialog(false)}}
+            />
           </View>
         ))}
       </View>
     );
   }
 }
-
-const state = {
-  products: []
-};
 
 const styles = StyleSheet.create({
   container: {

@@ -5,7 +5,8 @@ import {
   StyleSheet,
   TouchableOpacity,
   Text,
-  Image
+  Image, 
+  ScrollView,
 } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import FirebaseService from '../../../services/FirebaseService';
@@ -62,52 +63,54 @@ export default class Home extends React.Component {
 
   render() {
     return (
-      <View style={styles.container}>
-        {
-          state.products.map((item, index) => (
-            <TouchableOpacity
-              key = {item.id}
-              style = {styles.product_container}
-              onPress = {goToProfileEdit}>
-              <Image style={{width: 50, height: 50}} source={{uri: item.sourceImage}} />
-              <Text style = {styles.text}>
-                {item.name}
-              </Text>
-              <Button
-                style={styles.product_button}
-                color='#CD7F32'
-                title='Editar'
-                onPress = {() => goToProductEdit(item.id)}
-              />
-              <Button
-                style={styles.product_button}
-                color='#4f603c'
-                title='Trocar'
-                onPress = {() => goToTrade(item.id)}
-              />
-            </TouchableOpacity>
-          ))
-        }
-      <View style = {styles.buttons}>
-        <Button
-          color='#CD7F32'
-          title='Cadastrar Produto'
-          onPress = {goToProductCreate}
-        />
+      <ScrollView>
+        <View style={styles.container}>
+          {
+            state.products.map((item, index) => (
+              <TouchableOpacity
+                key = {item.id}
+                style = {styles.product_container}
+                onPress = {goToProfileEdit}>
+                <Image style={{width: 50, height: 50}} source={{uri: item.sourceImage}} />
+                <Text style = {styles.text}>
+                  {item.name}
+                </Text>
+                <Button
+                  style={styles.product_button}
+                  color='#CD7F32'
+                  title='Editar'
+                  onPress = {() => goToProductEdit(item.id)}
+                />
+                <Button
+                  style={styles.product_button}
+                  color='#4f603c'
+                  title='Trocar'
+                  onPress = {() => goToTrade(item.id)}
+                />
+              </TouchableOpacity>
+            ))
+          }
+        <View style = {styles.buttons}>
+          <Button
+            color='#CD7F32'
+            title='Cadastrar Produto'
+            onPress = {goToProductCreate}
+          />
 
-        <Button
-          color='#FD6D64'
-          title='Editar Perfil'
-          onPress = {goToProfileEdit}
-        />
+          <Button
+            color='#FD6D64'
+            title='Editar Perfil'
+            onPress = {goToProfileEdit}
+          />
 
-        <Button
-          color='#CD7F32'
-          title='Ver Matches'
-          onPress = {goToMatch}
-        />
+          <Button
+            color='#CD7F32'
+            title='Ver Matches'
+            onPress = {goToMatch}
+          />
+          </View>
         </View>
-      </View>
+      </ScrollView>
     )
   }
 }
