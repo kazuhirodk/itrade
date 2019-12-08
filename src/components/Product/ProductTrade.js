@@ -125,22 +125,26 @@ export default class ProductTrade extends Component {
       let match = snapshot.val();
 
       if(match.produto_oferta == this.state.cards[cardIndex].id) {
+        const myProductData = {
+          contato: user.telefone,
+          id: this.state.offeredProduct,
+          name: produto.nome,
+          ownerName: user.nome_usuario,
+          sourceImage: produto.foto
+        }
+
+        const interestProductData = {
+          contato: this.state.cards[cardIndex].ownerContact,
+          id: match.produto_oferta,
+          name: this.state.cards[cardIndex].name,
+          ownerName: this.state.cards[cardIndex].ownerName,
+          sourceImage: this.state.cards[cardIndex].sourceImage
+        }
+
         this.setState({
           match: {
-            myProduct: {
-              contato: user.telefone,
-              id: this.state.offeredProduct,
-              name: produto.nome,
-              ownerName: user.nome_usuario,
-              sourceImage: produto.foto
-            },
-            interestProduct: {
-              contato: this.state.cards[cardIndex].ownerContact,
-              id: match.produto_oferta,
-              name: this.state.cards[cardIndex].name,
-              ownerName: this.state.cards[cardIndex].ownerName,
-              sourceImage: this.state.cards[cardIndex].sourceImage
-            }
+            myProduct: myProductData,
+            interestProduct: interestProductData
           }
         })
 
