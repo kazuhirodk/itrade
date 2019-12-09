@@ -146,10 +146,10 @@ export default class ProductTrade extends Component {
             myProduct: myProductData,
             interestProduct: interestProductData
           }
+        }, () => {
+          console.log('DADOS MATCH: ' + this.state.cards[cardIndex].ownerName);
+          FirebaseService.pushData('usuarios/' + key + '/matches', this.state.match);
         })
-
-        console.log('DADOS MATCH: ' + this.state.cards[cardIndex].ownerName);
-        FirebaseService.pushData('usuarios/' + key + '/matches', this.state.match);
 
         Alert.alert('Você deu match!', 'Clique em OK para continuar',
           [
